@@ -1,0 +1,27 @@
+   {% extends 'layout.njk' %}
+    {% block content %}
+    <div id="conteudo">
+
+        {% for item in items %}
+
+            <div id={{item.id}} class="curso">
+                <img src={{item.src}} alt="Logo">
+                <h1>{{item.name}}</h1>
+                <h2>Módulos: {{item.modulos}}</h2>
+                <h2>{{item.type}}</h2>
+
+            </div>
+        {% endfor %}
+        
+    </div>
+    <footer>
+        {% for rede in data.links %}
+            <a href={{rede.url}}>{{rede.name}}</a>
+        {% endfor %}
+       
+    </footer>
+         
+    </div>
+
+    <script src="/scripts.js"></script>
+{% endblock content %}

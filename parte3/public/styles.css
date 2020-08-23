@@ -1,0 +1,138 @@
+body{
+    margin: 0;
+    background: #f0f0f7;
+    font: Roboto;
+}
+
+header{
+    height: 100%;
+    padding: 30px;
+    text-align: center;
+}
+
+a{
+    margin: 0 30px;
+}
+
+a:hover {
+    color: blue;
+}
+
+header a {
+    text-decoration: none;
+    color: #000;
+}
+
+
+.content img{
+    border-radius: 50%;
+    border: 2px solid rgb(175, 8, 175);
+    height: 200px;
+}
+
+.content, footer {
+    text-align: center;
+}
+
+.content ul{
+    margin-left: 35%;
+}
+.content li{
+    margin-left: 0;
+    padding: 0;
+    text-align: left;
+}
+
+footer {
+    margin-top: 70px;
+}
+footer a {
+    color: #000;
+}
+
+#conteudo{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    
+}
+
+#conteudo img{
+    margin: 0;
+    padding: 0;
+}
+
+.curso{
+    display: grid;
+    border: solid black;
+    border-radius: 16px;
+    margin: 50px;
+    padding: 50px 70px;
+    grid-template-columns: 1fr 1fr ;
+}
+
+#starter{
+    background: #6305a1;
+}
+#launchbase{
+    background: #e9e16e;
+}
+#gostack{
+    background: #5de770;
+}
+#conteudo h1{
+    margin-left: 10px;
+    text-align: center;
+}
+
+#conteudo h2 + h2{
+    text-align: center;
+}
+
+#conteudo h2 {
+    color: white;
+    padding-top: 20px;
+}
+
+.curso:hover{
+    cursor: pointer;
+}
+
+.modal-overlay{
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    opacity: 0;
+    visibility: hidden;
+    
+}
+
+.modal{
+    border-radius: 16px;
+    background-color: white;
+    width: 90%;
+    height: 90%;
+    margin: 5vh auto;
+    position: relative;
+}
+
+.modal .close-modal{
+    color: black;
+    position: absolute;
+    right: 0px;
+    top: 12px;
+    cursor: pointer;
+}
+
+.modal-overlay.active{
+    opacity: 1;
+    visibility: visible;
+}
+
+iframe{
+    height: 90%;
+    width: 100%;
+    position: absolute;
+    margin-top: 40px;
+}
