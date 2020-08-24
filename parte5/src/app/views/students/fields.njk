@@ -1,0 +1,56 @@
+        <div class="item">
+            <h2>Avatar URL</h2>
+            <input type="url" name="avatar_url" 
+             placeholder="http://"
+             value={{student.avatar_url}}
+            />
+        </div>
+        <div class="item">
+            <h2>Nome completo </h2>
+            <input 
+             type="text" 
+             name="name" 
+             placeholder="name"
+             value={{student.name}}
+            >
+        </div>
+        <div class="item">
+            <h2>Data de nascimento </h2>
+            <input 
+             type="date" 
+             name="birth_date"
+             value={{student.birth_date}}
+            >
+        </div>
+        <div class="item">
+            <h2>Email</h2>
+            <input 
+             type="email" 
+             name="email"
+             value={{student.email}}
+            >
+        </div>
+        <div class="item">
+            <h2>Ano escolar</h2>
+            <select name="education_level">
+                <option value="1">5º ano do ensino fundamental</option>
+                <option value="2">6º ano do ensino fundamental</option>
+                <option value="3">7º ano do ensino fundamental</option>
+                <option value="4">8º ano do ensino fundamental</option>
+                <option value="5">1º ano do ensino médio</option>
+                <option value="6">2º ano do ensino médio</option>
+                <option value="7">3º ano do ensino médio</option>
+            </select>
+        </div>
+        <div class="item">
+            <h2>Carga horária semanal(h/a)</h2>
+            <input 
+             type="number" 
+             name="week_time" 
+             value={{student.week_time}}
+             min=1
+            >
+        </div>
+        <button type="submit">Salvar</button>
+       
+

@@ -1,0 +1,66 @@
+        <div class="item">
+            <h2>Avatar URL</h2>
+            <input type="url" name="avatar_url" 
+             placeholder="http://"
+             value={{teacher.avatar_url}}
+            />
+        </div>
+        <div class="item">
+            <h2>Nome completo </h2>
+            <input 
+             type="text" 
+             name="name" 
+             placeholder="name"
+             value={{teacher.name}}
+            >
+        </div>
+        <div class="item">
+            <h2>Data de nascimento </h2>
+            <input 
+             type="date" 
+             name="birth_date"
+             value={{teacher.birth_date}}
+            >
+        </div>
+        <div class="item">
+            <h2>Grau de escolaridade</h2>
+            <select name="education_level">
+                <option value="1">Ensino Médio Completo</option>
+                <option value="2">Ensino Superior Completo</option>
+                <option value="3">Mestrado</option>
+                <option value="4">Doutorado</option>
+            </select>
+        </div>
+        <div class="item">
+            <h2>Acompanhamento </h2>
+                <span>
+                <input 
+                 type="radio" 
+                 name="class_type" 
+                 value="P" {% if teacher.class_type == "P" %}
+                 checked
+                 {% endif %}
+
+                >Presencial</span>
+                <span>
+                <input 
+                 type="radio" 
+                 name="class_type" 
+                 value="D"
+                 {% if teacher.class_type == "D" %}
+                 checked
+                 {% endif %}
+                 >À distância</span>
+        </div>
+        <div class="item">
+            <h2>Área de atuação </h2>
+            <input 
+             type="text" 
+             name="subjects_taught" 
+             placeholder="Matematica"
+             value={{teacher.subjects_taught}}
+            >
+        </div>
+        <button type="submit">Salvar</button>
+       
+
