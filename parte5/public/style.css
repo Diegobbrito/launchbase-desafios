@@ -213,3 +213,34 @@ tbody tr td:last-child a,
     margin: 32px 32px 0px;
     display: inline-block;
 }
+
+.header-filter{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 32px 32px 0px;
+}
+.header-filter a{
+    margin: 0;
+    width: 120px;
+}
+
+.header-filter form{ 
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    align-items: center;
+    grid-gap: 8px;
+}
+
+.header-filter form input{
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 4px 8px;
+    box-sizing: border-box;
+}
+
+.header-filter form button{
+    width: 100%;
+    margin: 0;
+}
+

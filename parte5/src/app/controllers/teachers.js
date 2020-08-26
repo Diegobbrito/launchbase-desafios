@@ -4,14 +4,24 @@ const {age, date, graduation} = require('../../lib/utils.js');
 module.exports = {
     
     index(request, response){
-        Teacher.all(function(teachers){
-            
-            teachers.map((teacher)=>{
-                teacher.subjects_taught = teacher.subjects_taught.split(",");
+
+        const { filter } = request.query;
+
+        if( filter ){
+            Teacher.findBy(filter, function(teachers){
+                teachers.map((teacher)=>{
+                    teacher.subjects_taught = teacher.subjects_taught.split(",");
+                });
+                return response.render("teachers/index", { teachers, filter });
             });
-            
-            return response.render("teachers/index", { teachers });
-        });      
+        }else{
+            Teacher.all(function(teachers){
+                teachers.map((teacher)=>{
+                    teacher.subjects_taught = teacher.subjects_taught.split(",");
+                });
+                return response.render("teachers/index", { teachers });
+            });      
+        }
     },
 
     create(request, response){

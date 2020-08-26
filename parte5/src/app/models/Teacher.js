@@ -49,6 +49,18 @@ module.exports = {
         });
     },
 
+    findBy(filter, callback){
+        db.query(`
+            SELECT * 
+            FROM teachers 
+            WHERE name ILIKE '%${filter}%'
+            OR subjects_taught ILIKE '%${filter}%'`, function(err, results){
+            if(err) throw `Erro no banco: ${err}`;
+
+            callback(results.rows);
+        });
+    },
+
     update(data, callback){
         const query = `
         UPDATE teachers SET
@@ -82,5 +94,6 @@ module.exports = {
             
             callback();
         });
-    }
+    },
+    
 }

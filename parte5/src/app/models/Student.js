@@ -105,5 +105,6 @@ module.exports = {
 
             callback(results.rows);
         });
-    }
+    },
+    
 }

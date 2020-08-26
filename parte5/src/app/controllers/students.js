@@ -4,12 +4,10 @@ const {date, grade} = require('../../lib/utils.js');
 module.exports = {
     
     index(request, response){
-        Student.all(function(students){
-            
+        Student.all(function(students){    
             students.map((student)=>{
                 student.education_level = grade(student.education_level);
             });
-
             return response.render("students/index", { students });
         });      
     },
