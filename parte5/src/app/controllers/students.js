@@ -15,7 +15,11 @@ module.exports = {
     },
 
     create(request, response){
-        return response.render("students/create");
+
+        Student.teacherSelectOptions(function(options){
+
+            return response.render("students/create", { teacherOptions: options});
+        }) ;
     },
 
     post(request, response){
@@ -50,8 +54,10 @@ module.exports = {
             if(!student) return response.send("Aluno não encontrado");
              
             student.birth_date = date(student.birth_date).iso;
-           
-            return response.render(`students/edit`, { student });
+
+            Student.teacherSelectOptions(function(options){
+                return response.render("students/edit", { student, teacherOptions: options});
+            }) ;           
         });
 
     },

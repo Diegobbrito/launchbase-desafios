@@ -51,6 +51,18 @@
              min=1
             >
         </div>
+
+        <div class="item">
+            <h2>Professor</h2>
+            <select name="teacher">
+                {% for teacher in teacherOptions %}
+                <option value="{{teacher.id}}" {% if student.teacher_id == teacher.id%} select {% endif %}>
+                    {{teacher.name}}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
         <button type="submit">Salvar</button>
        
 

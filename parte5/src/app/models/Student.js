@@ -4,7 +4,11 @@ const { date } = require('../../lib/utils');
 module.exports = {
 
     all(callback){
-        db.query(`SELECT * FROM students ORDER BY name ASC`, function(err, results){
+        db.query(`
+            SELECT * 
+            FROM students 
+            ORDER BY name ASC
+            `, function(err, results){
             if (err) throw `Erro no banco: ${err}`
             
             callback(results.rows)
@@ -19,8 +23,9 @@ module.exports = {
                 birth_date,
                 email,
                 education_level,
-                week_time
-            ) VALUES ($1, $2, $3, $4, $5, $6)
+                week_time,
+                teacher_id
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING id
             `
         const values = [
@@ -30,6 +35,7 @@ module.exports = {
             data.email,
             data.education_level,
             data.week_time,
+            data.teacher
         ]
 
         db.query(query, values, function(err, results){            
@@ -40,8 +46,16 @@ module.exports = {
     },
 
     find(id, callback){
-        db.query(`SELECT * FROM students WHERE id = $1`, [id], function(err, results){
+        db.query(`
+            SELECT students.*, teachers.name AS teacher_name
+            FROM students
+            LEFT JOIN teachers
+            ON (teachers.id = students.teacher_id)
+            WHERE students.id = $1
+        `, [id], function(err, results){
             if(err) throw `Erro no banco: ${err}`
+
+            console.log(results.rows[0])
 
             callback(results.rows[0]);
         });
@@ -55,8 +69,9 @@ module.exports = {
             birth_date = ($3),
             email = ($4),
             education_level = ($5),
-            week_time = ($6)
-        WHERE id = ($7)
+            week_time = ($6),
+            teacher_id = ($7)
+        WHERE id = ($8)
         `
         const values = [
             data.name,
@@ -65,7 +80,9 @@ module.exports = {
             data.email,
             data.education_level,
             data.week_time,
-            data.id
+            data.teacher,
+            data.id,
+
         ]
         db.query(query, values, function(err, results){
             if (err) throw `Erro no banco: ${err}`
@@ -79,6 +96,14 @@ module.exports = {
             if (err) throw `Erro no banco: ${err}`
             
             callback();
+        });
+    },
+
+    teacherSelectOptions(callback){
+        db.query(`SELECT name, id FROM teachers`, function(err, results){
+            if (err) throw `Erro: ${err}`;
+
+            callback(results.rows);
         });
     }
 }
