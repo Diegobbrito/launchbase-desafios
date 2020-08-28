@@ -74,7 +74,6 @@ header a:hover::after{
 
 .avatar{
     width: 40%;
-    background: no-repeat center center / cover;
 }
 
 .card .details{
@@ -205,11 +204,12 @@ tbody tr td:last-child a,
     padding: 8px 16px;
     text-decoration: none;
     color: white;
-    font-size: 12px;
-    border-radius: 6px;
+    border-radius: 8px;
 }
 
 .table-container > a{
+    width: 48px;
+    text-align: center;
     margin: 32px 32px 0px;
     display: inline-block;
 }
@@ -244,3 +244,33 @@ tbody tr td:last-child a,
     margin: 0;
 }
 
+/* Paginação */
+
+.table-container{
+    display: grid;
+    grid-template: 64px 1fr 16px / 1fr;
+}
+
+.table-container .header-filter{
+    margin: 0;
+    align-self: start;
+}
+
+.table-container .pagination{
+    margin: 0;
+    align-self: end;
+    margin-bottom: 16px;
+    justify-self: center;
+}
+
+.pagination a,
+.pagination span {
+    color: #555 ;
+    text-decoration: none;
+    margin-right: 8px;
+}
+
+.pagination a:hover {
+    filter: brightness(0.3);
+    border-bottom: 1px solid #555;
+}

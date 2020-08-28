@@ -5,23 +5,48 @@ module.exports = {
     
     index(request, response){
 
-        const { filter } = request.query;
+        let { filter, page, limit } = request.query;
 
-        if( filter ){
-            Teacher.findBy(filter, function(teachers){
+        page = page || 1;
+        limit = limit || 5;
+
+        let offset =  limit * (page - 1);
+
+        const params = {
+            filter,
+            page,
+            limit,
+            offset,
+            callback(teachers){
                 teachers.map((teacher)=>{
                     teacher.subjects_taught = teacher.subjects_taught.split(",");
                 });
-                return response.render("teachers/index", { teachers, filter });
-            });
-        }else{
-            Teacher.all(function(teachers){
-                teachers.map((teacher)=>{
-                    teacher.subjects_taught = teacher.subjects_taught.split(",");
-                });
-                return response.render("teachers/index", { teachers });
-            });      
+                const pagination = {
+                    total: Math.ceil(teachers[0].total / limit),
+                    page
+                }
+                return response.render("teachers/index", { teachers, pagination,  filter });
+
+            }
         }
+
+        Teacher.paginate(params);
+
+        // if( filter ){
+        //     Teacher.findBy(filter, function(teachers){
+        //         teachers.map((teacher)=>{
+        //             teacher.subjects_taught = teacher.subjects_taught.split(",");
+        //         });
+        //         return response.render("teachers/index", { teachers, filter });
+        //     });
+        // }else{
+        //     Teacher.all(function(teachers){
+        //         teachers.map((teacher)=>{
+        //             teacher.subjects_taught = teacher.subjects_taught.split(",");
+        //         });
+        //         return response.render("teachers/index", { teachers });
+        //     });      
+        // }
     },
 
     create(request, response){

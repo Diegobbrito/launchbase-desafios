@@ -24,7 +24,7 @@ module.exports = {
                 email,
                 education_level,
                 week_time,
-                teacher_id
+                student_id
             ) VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING id
             `
@@ -35,7 +35,7 @@ module.exports = {
             data.email,
             data.education_level,
             data.week_time,
-            data.teacher
+            data.student
         ]
 
         db.query(query, values, function(err, results){            
@@ -54,8 +54,6 @@ module.exports = {
             WHERE students.id = $1
         `, [id], function(err, results){
             if(err) throw `Erro no banco: ${err}`
-
-            console.log(results.rows[0])
 
             callback(results.rows[0]);
         });
@@ -106,5 +104,43 @@ module.exports = {
             callback(results.rows);
         });
     },
+
+    paginate(params){
+        const { filter, limit, offset, callback } = params;
+
+
+        let query = "",
+            filterQuery = "",
+            totalQuery = `(
+                SELECT count(*) 
+                FROM students
+                ) AS total`;
+        
+        if( filter ){
+            filterQuery = `
+            WHERE name ILIKE '%${filter}%'
+            `
+            totalQuery = `(
+                SELECT count(*) 
+                FROM students 
+                ${filterQuery}
+                ) AS total`
+        }
+
+        query = `
+                SELECT students.*, ${totalQuery}
+                FROM students
+                ${filterQuery}
+                LIMIT $1 OFFSET $2`
+
+
+        db.query(query, [limit, offset], function(err, results){
+            if(err) throw `Banco error: ${err}`;
+
+            callback(results.rows);
+        });
+
+    }
+    
     
 }

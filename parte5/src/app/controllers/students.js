@@ -4,18 +4,44 @@ const {date, grade} = require('../../lib/utils.js');
 module.exports = {
     
     index(request, response){
-        Student.all(function(students){    
-            students.map((student)=>{
-                student.education_level = grade(student.education_level);
-            });
-            return response.render("students/index", { students });
-        });      
+        let { filter, page, limit } = request.query;
+
+        page = page || 1;
+        limit = limit || 5;
+
+        let offset =  limit * (page - 1);
+
+        const params = {
+            filter,
+            page,
+            limit,
+            offset,
+            callback(students){
+                students.map((student)=>{
+                    student.education_level = grade(student.education_level);
+                });
+                const pagination = {
+                    total: Math.ceil(students[0].total / limit),
+                    page
+                }
+                return response.render("students/index", { students, pagination,  filter });
+
+            }
+        }
+
+        Student.paginate(params);
+
+        // Student.all(function(students){    
+        //     students.map((student)=>{
+        //         student.education_level = grade(student.education_level);
+        //     });
+        //     return response.render("students/index", { students });
+        // });      
     },
 
     create(request, response){
 
         Student.teacherSelectOptions(function(options){
-
             return response.render("students/create", { teacherOptions: options});
         }) ;
     },

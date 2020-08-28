@@ -4,7 +4,7 @@
 <div class="card table-container">
 
     <div class="header-filter">
-    <a class="button" href="/students/create">Novo</a>
+    <a class="button" href="/teachers/create">Novo</a>
     <form action="/teachers" method="get">
     <input 
         type="text" 
@@ -44,6 +44,12 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <div class="pagination"
+         data-page={{pagination.page}}
+         data-total={{pagination.total}}
+         data-filter={{filter}}
+    ></div>
     
 </div>
 {% endblock content %}
