@@ -29,7 +29,6 @@ module.exports = {
             data.avatar_url,
             date(data.created_at).iso
         ]
-        console.log(data)
 
         db.query(query, values, function(err, results){            
             if (err) throw `Erro no banco: ${err}`

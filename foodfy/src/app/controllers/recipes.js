@@ -15,69 +15,71 @@ module.exports = {
             page,
             limit,
             offset,
-            callback(students){
-                students.map((student)=>{
-                    student.education_level = grade(student.education_level);
-                });
+            callback(recipes){
                 const pagination = {
-                    total: Math.ceil(students[0].total / limit),
+                    total: Math.ceil(recipes[0].total / limit),
                     page
                 }
-                return response.render("students/index", { students, pagination,  filter });
+                return response.render("admin/recipes/index", { recipes, pagination,  filter });
 
             }
         }
 
-        Student.paginate(params);
+        Recipes.paginate(params);
 
-        // Student.all(function(students){    
-        //     students.map((student)=>{
-        //         student.education_level = grade(student.education_level);
+        // Recipes.all(function(recipes){    
+        //     recipes.map((recipe)=>{
+        //         recipe.education_level = grade(recipe.education_level);
         //     });
-        //     return response.render("students/index", { students });
+        //     return response.render("recipes/index", { recipes });
         // });      
     },
 
     create(request, response){
-        return response.render("admin/create");
+
+        Recipes.chefsSelectOptions(function(options){
+            return response.render("admin/recipes/create", { chefOptions: options});
+        });
     },
 
     post(request, response){
         const keys = Object.keys(request.body);
 
+        const created_at = Date.now();
+
         for (const key of keys) {
             if(request.body[key] == "")
             return response.send("Por favor, preencha todos os campos")
         }
+
+        const recipe = {
+            ...request.body,
+            created_at
+        }
         
-        Student.create(request.body, function(student){
-            return response.redirect(`/students/${student.id}`);
+        Recipes.create(recipe, function(recipe){
+            return response.redirect(`/admin/recipes/${recipe.id}`);
         });        
     }, 
     
     show(request, response){
 
-        Student.find(request.params.id, function(student){
-            if(!student) return response.send("Aluno não encontrado");
+        Recipes.find(request.params.id, function(recipe){
+            if(!recipe) return response.send("Receita não encontrada");
              
-            student.birth_date = date(student.birth_date).birthDay;
-            student.education_level = grade(student.education_level);
-
-            return response.render("students/show", { student });
+            return response.render("admin/recipes/show", { recipe });
         });
         
     },
     
     edit(request, response){
 
-        Student.find(request.params.id, function(student){
-            if(!student) return response.send("Aluno não encontrado");
-             
-            student.birth_date = date(student.birth_date).iso;
+        Recipes.find(request.params.id, function(recipe){
+            if(!recipe) return response.send("Receita não encontrada");
 
-            Student.teacherSelectOptions(function(options){
-                return response.render("students/edit", { student, teacherOptions: options});
-            }) ;           
+            Recipes.chefsSelectOptions(function(options){
+                return response.render("admin/recipes/edit", { recipe, chefOptions: options});
+            });           
         });
 
     },
@@ -90,15 +92,15 @@ module.exports = {
             return response.send("Por favor, preencha todos os campos")
         }
 
-        Student.update(request.body, function(){
-            return response.redirect(`/students/${request.body.id}`);
+        Recipes.update(request.body, function(){
+            return response.redirect(`admin/recipes/${request.body.id}`);
         });
 
     },
     
     delete(request, response){
-        Student.delete(request.body.id, function(){
-            return response.redirect(`/students`);
+        Recipes.delete(request.body.id, function(){
+            return response.redirect(`admin/recipes`);
         });
     },
     

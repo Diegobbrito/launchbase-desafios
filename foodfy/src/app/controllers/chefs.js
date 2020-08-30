@@ -22,9 +22,7 @@ module.exports = {
                     page
                 }
 
-                console.log(chefs)
                 return response.render("admin/chefs/index", { chefs, pagination });
-
             }
         }
 
@@ -88,9 +86,6 @@ module.exports = {
             return response.send("Por favor, preencha todos os campos")
         }
 
-        console.log('to vindo pelo update')
-
-
         Chef.update(request.body, function(){
             return response.redirect(`/admin/chefs/${request.body.id}`);
         });
@@ -98,7 +93,6 @@ module.exports = {
     },
     
     delete(request, response){
-        console.log('to vindo pelo delete')
         Chef.delete(request.body.id, function(){
             return response.redirect(`/admin/chefs`);
         });

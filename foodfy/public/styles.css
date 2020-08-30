@@ -147,15 +147,24 @@ footer{
     position: relative;
 }
 
-.header-chef-create{
+.header-chef-create,
+.header-recipe-create,
+.header-recipe-show{
     display: flex;
     justify-content: space-between;
     margin-bottom: 16px;
 }
 
-.card input{
+.header-recipe-show h1{
+    font-size: 24px;
+    font-weight: bold;
+    columns: #111111;
+}
+
+.card input,
+.card select{
     width: 100%;
-    height: 30px;
+    height: 40px;
     font-size: 16px;
     padding: 8px;
     border-radius: 8px;
@@ -163,6 +172,7 @@ footer{
     margin-top: 16px;
     margin-bottom: 16px;
     box-sizing: border-box;
+    background-color: #F1F1F1;
 }
 
 .card button,
@@ -174,7 +184,7 @@ footer{
     width: 120px;
     height: 35px;
     font-size: 16px;
-    font: bold;
+    font-weight: bold;
     align-items: center;
     justify-content: center;
     display: flex;
@@ -226,10 +236,12 @@ footer{
 .chef-list .text-list{
     display: grid;
 }
-.chef-list .text-list a{
+.chef-list .text-list a,
+.recipe-text-list a{
     text-decoration: none;
     color: #6558C3;
     font-size: 14px;
+    font-weight: bold;
 }
 
 .card .chef-list img{
@@ -242,4 +254,61 @@ footer{
 .card .chef-list span{
     padding-top: 10px;
     font-size: 18px;
+}
+
+.card .add-ingredient{
+    background-color: white;
+    color: #6558C3;
+    font-size: 16px;
+}
+
+.recipe-img{
+    border-radius: 15px;
+    height: 280px;
+    margin-bottom: 50px;
+}
+
+.recipe-text{
+    text-align: center;
+}
+
+.recipe-text h2{
+    font-size: 36px;
+    font-weight: bold;
+    color: #111111;
+}
+.recipe-text h3{
+    font-size: 20px;
+    font-weight: normal;
+    color: #777777;
+}
+
+.recipe-content h2{
+    margin-bottom: 16px;
+    margin-top: 16px;
+}
+
+.recipe-list{
+    display: flex;
+    width: 400px;
+}
+.recipe-list img{
+    width: 170px;
+    height: 80px;
+    border-radius: 8px;
+}
+
+.recipe-text-list{
+    margin-left: 16px;
+    display: grid;
+}
+
+.recipe-text-list > span{
+    font-size: 18px;
+}
+.recipe-text-list span + span{
+    font-weight: normal;
+    color: #555555;
+    font-size: 14px;
+
 }
