@@ -1,0 +1,24 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+<div class="card">
+    <form class="form-delete" action="/admin/chefs?_method=DELETE" method="post">
+        <button type="submit" class="delete-button">Deletar</button>
+        <input type="hidden" name="id" value="{{chef.id}}">
+    </form>
+    <form action="/admin/chefs?_method=PUT" method="post">
+        <div class="header-chef-create">
+            <h1>Editando chef</h1>
+            <div class="delete-button">
+            </div>
+            <button type="submit">Salvar chef</button>
+        </div>
+        <h2>Nome</h2>
+        <input type="text" value={{chef.name}} name="name">
+        <h2>Avatar</h2>
+        <input type="url" value={{chef.avatar_url}} name="avatar_url">
+        <input type="hidden" name="id" value="{{chef.id}}">
+    </form>
+</div>
+{% endblock content %}

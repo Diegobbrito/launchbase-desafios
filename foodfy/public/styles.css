@@ -1,10 +1,14 @@
-:root{
+*{
     margin: 0;
+    padding: 0;
     font: Roboto;
+    border: none;
 }
-body{
-    margin: 0;
+
+body, html {
+    height: 100%;
 }
+
 
 header{
     margin-top: 3.3%;
@@ -92,8 +96,6 @@ header a{
     cursor: pointer;
 }
 
-
-
 footer{
     height: 62px;
     background-color: #EEEEEE;
@@ -102,6 +104,11 @@ footer{
     justify-content: center;
     color: #999999;
     font-size: 14px;
+    margin-top: auto;
+    position: fixed;
+    bottom:0;
+    left:0;
+    width: 100%;
 }
 
 .about-content{
@@ -134,3 +141,105 @@ footer{
     visibility: hidden;
 }
 
+.card{
+    max-width: 940px;
+    margin: auto;
+    position: relative;
+}
+
+.header-chef-create{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.card input{
+    width: 100%;
+    height: 30px;
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #101010;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}
+
+.card button,
+.card .button{
+    text-decoration: none;
+    background-color: #6558C3;
+    color: white;
+    border-radius: 4px;
+    width: 120px;
+    height: 35px;
+    font-size: 16px;
+    font: bold;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.card button:hover{
+    cursor: pointer;
+}
+
+.card .chef-image{
+    justify-content: center;
+    display: flex;
+    margin-top: 30px;
+}
+.card .chef-image img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+.card .chef-description{
+    margin-top: 30px;
+    text-align: center;
+}
+
+.card .chef-description h1{
+    margin-bottom: 16px;
+}
+.card .form-delete button{
+    background-color: red;
+    right: 130px;
+    position: absolute;
+}
+
+.card-list{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+.chef-list{
+    height: 64px;
+    width: 200px;
+    display: flex;
+}
+
+.chef-list .text-list{
+    display: grid;
+}
+.chef-list .text-list a{
+    text-decoration: none;
+    color: #6558C3;
+    font-size: 14px;
+}
+
+.card .chef-list img{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    margin-right: 16px;
+}
+
+.card .chef-list span{
+    padding-top: 10px;
+    font-size: 18px;
+}
