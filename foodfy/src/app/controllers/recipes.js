@@ -1,38 +1,75 @@
 const Recipes = require('../models/Recipes');
 
 module.exports = {
+
+    // (request, response) => {
+
+//     console.log(recipes)
+// });
+    
+    indexAll(request, response){
+    let { filter, page, limit } = request.query;
+
+    page = page || 1;
+    limit = limit || 5;
+
+    let offset =  limit * (page - 1);
+
+    const params = {
+        filter,
+        page,
+        limit,
+        offset,
+        callback(recipes){
+            const pagination = {
+                total: Math.ceil(recipes[0].total / limit),
+                page
+            }
+            return response.render("recipes/index", { recipes, pagination,  filter });
+        }
+    }
+
+    Recipes.paginate(params);
+
+    // Recipes.all(function(recipes){    
+    //     recipes.map((recipe)=>{
+    //         recipe.education_level = grade(recipe.education_level);
+    //     });
+    //     return response.render("recipes/index", { recipes });
+    // });      
+    },
     
     index(request, response){
-        let { filter, page, limit } = request.query;
+    let { filter, page, limit } = request.query;
 
-        page = page || 1;
-        limit = limit || 5;
+    page = page || 1;
+    limit = limit || 5;
 
-        let offset =  limit * (page - 1);
+    let offset =  limit * (page - 1);
 
-        const params = {
-            filter,
-            page,
-            limit,
-            offset,
-            callback(recipes){
-                const pagination = {
-                    total: Math.ceil(recipes[0].total / limit),
-                    page
-                }
-                return response.render("admin/recipes/index", { recipes, pagination,  filter });
-
+    const params = {
+        filter,
+        page,
+        limit,
+        offset,
+        callback(recipes){
+            const pagination = {
+                total: Math.ceil(recipes[0].total / limit),
+                page
             }
+            return response.render("admin/recipes/index", { recipes, pagination,  filter });
+
         }
+    }
 
-        Recipes.paginate(params);
+    Recipes.paginate(params);
 
-        // Recipes.all(function(recipes){    
-        //     recipes.map((recipe)=>{
-        //         recipe.education_level = grade(recipe.education_level);
-        //     });
-        //     return response.render("recipes/index", { recipes });
-        // });      
+    // Recipes.all(function(recipes){    
+    //     recipes.map((recipe)=>{
+    //         recipe.education_level = grade(recipe.education_level);
+    //     });
+    //     return response.render("recipes/index", { recipes });
+    // });      
     },
 
     create(request, response){

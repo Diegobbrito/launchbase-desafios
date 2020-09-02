@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+ 
+    <input type="text" name="cpf">
+    <script>
+        const input = document.querySelector('input[name="cpf"]');
+        input.addEventListener("keydown", function(e){
+
+            setTimeout(()=>{
+                let { value } = e.target;
+
+                value = value.replace(/\D/g,"");
+
+                value = new Intl.NumberFormat('pt-BR',{
+                    style: 'currency',
+                    currency: 'BRL'
+                }).format(value/100);
+
+
+                e.target.value = value;
+            }, 1)
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Formata R$</h1>
+    <input type="text" name="rs"
+        onkeydown="Mask.apply(this, 'formatBRL')"
+    >
+    <h1>Formata CPF</h1>
+    <input type="text" name="cpf"
+        onkeydown="Mask.apply(this, 'formatCPF')"
+    >
+    <h1>Formata Percentual</h1>
+    <input type="text" name="cpf"
+        onkeydown="Mask.apply(this, 'formatPercent')"
+    >
+    <script>
+
+        const Mask = {
+            apply(input, func){
+                setTimeout(function(){
+                    input.value = Mask[func](input.value)
+                }, 1);
+            },
+            formatBRL(value){
+                value = value.replace(/\D/g,"");
+
+                return value = new Intl.NumberFormat('pt-BR',{
+                    style: 'currency',
+                    currency: 'BRL'
+                }).format(value/100);
+
+            },
+            formatCPF(value){
+
+                value = value.replace(/\D/g,"");
+
+                value = value.length < 15 ? value : value.slice(0,14);
+                value = value.replace(/^(\d{3})(\d)/g, '$1.$2');
+                value = value.replace(/(.\d{3})(\d)/g, '$1.$2');
+                value = value.replace(/(.\d{3})(\d)/g, '$1-$2');
+
+                return value;
+
+            },
+            formatPercente(value){
+                value = value.replace(/\D/g,"");
+                
+                return value = new Intl.NumberFormat('us-US',{
+                    style: 'percent',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 4
+                }).format(value/10000);
+            }
+        }
+    </script>
+</body>
+</html>

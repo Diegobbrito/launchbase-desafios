@@ -3,16 +3,15 @@ const routes = express.Router();
 const recipes = require('./app/controllers/recipes');
 const chefs = require('./app/controllers/chefs');
 
-routes.get("/", (request, response) => {
-    return response.render("index", { recipes });
-});
+routes.get("/", recipes.indexAll)
+
 
 routes.get("/about", (request, response) => {
     return response.render("about");
 });
 
 routes.get("/recipes", (request, response) => {
-    return response.render("recipes", {recipes});
+    return response.render("recipes/recipes", {recipes});
 });
 
 routes.get("/recipe/:id", function (request, response) {
