@@ -99,15 +99,17 @@ function doubleNumberAdd(number, add){
     return (number * 2) + add;
 }
     
-let double = (number, add) => new Promise((resolve, reject) => {
-    setTimeout(
-        () => {
-            return resolve(doubleNumberAdd(number, add));
+function double(number, add){
+    return new Promise((resolve, reject) => {
+        setTimeout(
+            () => {
+                
+                resolve(doubleNumberAdd(number, add));
 
-        }, Math.floor(Math.random() * 100) + 1
-    );
-});
-
+            }, Math.floor(Math.random() * 100) + 1
+        );
+    });
+}
 async function printAll(){
 
     let result = await double(5, 0);
