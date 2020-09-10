@@ -7,7 +7,7 @@
         <button type="submit" class="delete-button">Deletar</button>
         <input type="hidden" name="id" value="{{chef.id}}">
     </form>
-    <form action="/admin/chefs?_method=PUT" method="post">
+    <form action="/admin/chefs?_method=PUT" method="post" enctype="multipart/form-data">
         <div class="header-chef-create">
             <h1>Editando chef</h1>
             <button type="submit">Salvar chef</button>

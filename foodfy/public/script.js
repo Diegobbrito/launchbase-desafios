@@ -1,3 +1,5 @@
+const e = require("express");
+
 const receitas = document.querySelectorAll('.receita');
 
 for(let receita of receitas){
@@ -32,6 +34,94 @@ if (ingredientes){
     ingredientes.addEventListener("click", addIngredient);
 }
 
+const PhotoUpload = {
+    input: " ",
+    preview: document.querySelector("#photos-preview"), 
+    uploadLimit: 5,
+    files: [],
+    handleFileInput(event){
+        const { files: fileList} = event.target;
+        PhotoUpload.input = event.target;
+        
+        if(PhotoUpload.hasLimit(event)) return
 
+        Array.from(fileList).forEach(file => {
 
-// hidecontents.classList.remove("active");
+            PhotoUpload.files.push(file)
+           const reader = new FileReader();
+
+           reader.onload = () => {
+               const image = new Image();
+               image.src = String(reader.result); 
+
+               const div = PhotoUpload.getContainer(image);
+
+               PhotoUpload.preview.appendChild(div);
+
+           }
+           reader.readAsDataURL(file)
+        });
+
+        PhotoUpload.input.files = PhotoUpload.getAllFiles();
+    },
+    getContainer(image){
+        const div = document.createElement('div')
+               div.classList.add('photo')
+
+               div.onclick = PhotoUpload.removePhoto
+
+               div.appendChild(image)
+
+               div.appendChild(PhotoUpload.getRemoveButton());
+
+               return div
+    },
+    getAllFiles(){
+        const dataTransfer = new ClipboardEvent("").clipboardData || new DataTransfer()
+
+        PhotoUpload.files.forEach(file => dataTransfer.items.add(file))
+        return dataTransfer.files
+    },
+    hasLimit(event){
+        const { uploadLimit, input, preview } = PhotoUpload;
+        const { files: fileList} = input;
+
+        if(fileList.length > uploadLimit){
+            alert(`Envia no máximo ${uploadLimit} fotos`);
+            event.prevendDefault();
+            return true;
+        }
+
+        const photosDiv = []
+        preview.childNodes.forEach(item => {
+            if(item.classList && item.classList.value == "photo")
+                photosDiv.push(item)
+        });
+
+        const totalPhotos = fileList.length + photosDiv.length
+        if(totalPhotos > uploadLimit){
+            alert("Você atingiu o limite máximo de fotos");
+            event.prevendDefault();
+            return true;
+        }
+
+        return false;
+    },
+    getRemoveButton(){
+        const button = document.createElement('i');
+        button.classList.add('material-icons');
+        button.innerHTML = "close";
+        return button;
+    },
+    removePhoto(event){
+        const photoDiv = event.target.parentNode
+        const photosArray = Array.from(PhotoUpload.preview.children)
+        const index = photosArray.indexOf(photoDiv);
+ 
+        PhotoUpload.files.splice(index, 1); 
+        PhotoUpload.input.files = PhotoUpload.getAllFiles();
+
+        photoDiv.remove()
+    }
+
+}

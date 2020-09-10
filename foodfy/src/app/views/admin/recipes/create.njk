@@ -2,14 +2,26 @@
 {% block content %}
 
 <div class="card">
-    <form action="/admin/recipes" method="post">
+    <form action="/admin/recipes" method="post" enctype="multipart/form-data">
 
         <div class="header-recipe-create">
             <h1>Criando receita</h1>
             <button type="submit">Salvar receita</button>
         </div>
         <h2>Imagem da receita:</h2>
-        <input type="url" placeholder="Imagem" name="image">
+
+         <div id="photos-upload">
+            <input 
+                id="photos-input"
+                type="file" 
+                name="photo"
+                multiple
+                accept="image/*"
+        >
+            <span class="material-icons">
+                add
+            </span>
+        </div>
         <h2>Titulo</h2>
         <input type="text" placeholder="Titulo" name="title">
         <h2>Chef</h2>
