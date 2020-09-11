@@ -1,6 +1,7 @@
 const db = require('../../config/db');
 const { date } = require('../../lib/utils');
 
+
 module.exports = {
 
     all(callback){
@@ -73,14 +74,6 @@ module.exports = {
             if (err) throw `Erro no banco: ${err}`
             
             callback();
-        });
-    },
-
-    teacherSelectOptions(callback){
-        db.query(`SELECT name, id FROM recipes`, function(err, results){
-            if (err) throw `Erro: ${err}`;
-
-            callback(results.rows);
         });
     },
 

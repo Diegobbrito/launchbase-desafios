@@ -9,6 +9,8 @@
             <button type="submit">Salvar receita</button>
         </div>
         <h2>Imagem da receita:</h2>
+        <div class="container-photos">
+
 
          <div id="photos-upload">
             <input 
@@ -17,10 +19,14 @@
                 name="photo"
                 multiple
                 accept="image/*"
+                onchange="PhotoUpload.handleFileInput(event, 5)"
         >
             <span class="material-icons">
                 add
             </span>
+
+        </div>
+            <div id="photos-preview"></div>
         </div>
         <h2>Titulo</h2>
         <input type="text" placeholder="Titulo" name="title">

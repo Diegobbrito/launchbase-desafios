@@ -1,5 +1,3 @@
-const e = require("express");
-
 const receitas = document.querySelectorAll('.receita');
 
 for(let receita of receitas){
@@ -37,13 +35,12 @@ if (ingredientes){
 const PhotoUpload = {
     input: " ",
     preview: document.querySelector("#photos-preview"), 
-    uploadLimit: 5,
     files: [],
-    handleFileInput(event){
+    handleFileInput(event, limit){
         const { files: fileList} = event.target;
         PhotoUpload.input = event.target;
         
-        if(PhotoUpload.hasLimit(event)) return
+        if(PhotoUpload.hasLimit(event, limit)) return
 
         Array.from(fileList).forEach(file => {
 
@@ -82,12 +79,13 @@ const PhotoUpload = {
         PhotoUpload.files.forEach(file => dataTransfer.items.add(file))
         return dataTransfer.files
     },
-    hasLimit(event){
-        const { uploadLimit, input, preview } = PhotoUpload;
+    hasLimit(event, limit){
+        const { input, preview } = PhotoUpload;
         const { files: fileList} = input;
+        let uploadLimit = limit;
 
         if(fileList.length > uploadLimit){
-            alert(`Envia no máximo ${uploadLimit} fotos`);
+            alert(`Envie no máximo ${uploadLimit} foto(s)`);
             event.prevendDefault();
             return true;
         }
@@ -123,5 +121,4 @@ const PhotoUpload = {
 
         photoDiv.remove()
     }
-
 }
