@@ -1,4 +1,5 @@
 const Chef = require('../models/Chefs');
+const File = require('../models/File');
 
 module.exports = {
     
@@ -40,7 +41,7 @@ module.exports = {
         return response.render("admin/chefs/create");
     },
 
-    post(request, response){
+    async post(request, response){
         const keys = Object.keys(request.body);
         const created_at = Date.now();
         for (const key of keys) {
@@ -48,14 +49,24 @@ module.exports = {
             return response.send("Por favor, preencha todos os campos");
         }
 
+        if(request.files.length == 0)
+            return response.send('Por favor, envie uma imagem');  
+
+        const filePromise =  request.files.map(file => File.create({
+            ...file
+        }))
+
+        await Promise.all(filePromise);
+
         const chef = {
             ...request.body,
             created_at
         }
         
-        Chef.create(chef, function(chef){
-            return response.redirect(`/admin/chefs/${chef.id}`);
-        });        
+        let results = await Chef.create(chef);
+        const chefId = results.rows[0].id;     
+        
+        return response.redirect(`/admin/chefs/${chefId}`); 
     }, 
     
     show(request, response){

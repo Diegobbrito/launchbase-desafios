@@ -37,8 +37,8 @@ routes.get("/admin/recipes/create", recipes.create); // Mostrar formulário de n
 routes.get("/admin/recipes/:id", recipes.show); // Exibir detalhes de uma receita
 routes.get("/admin/recipes/:id/edit", recipes.edit); // Mostrar formulário de edição de receita
 
-routes.post("/admin/recipes", multer.array("photos", 6), recipes.post); // Cadastrar nova receita
-routes.put("/admin/recipes", multer.array("photos", 6), recipes.put); // Editar uma receita
+routes.post("/admin/recipes", multer.array("photos", 5), recipes.post); // Cadastrar nova receita
+routes.put("/admin/recipes", multer.array("photos", 5), recipes.put); // Editar uma receita
 routes.delete("/admin/recipes", recipes.delete); // Deletar uma receita
 
 routes.get("/admin/chefs", multer.array("photos", 1), chefs.index); // Mostrar a lista de receitas
