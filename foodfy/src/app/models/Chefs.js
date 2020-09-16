@@ -20,15 +20,15 @@ module.exports = {
         const query =  `
             INSERT INTO public.chefs (
                 name,
-                avatar_url,
-                created_at
+                created_at,
+                file_id
             ) VALUES ($1, $2, $3)
             RETURNING id
             `
         const values = [
             data.name,
-            data.avatar_url,
-            date(data.created_at).iso
+            date(data.created_at).iso,
+            data.id
         ]
 
         db.query(query, values, function(err, results){            

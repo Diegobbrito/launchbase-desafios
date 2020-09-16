@@ -45,20 +45,15 @@ module.exports = {
         const keys = Object.keys(request.body);
         const created_at = Date.now();
 
-        console.log(request.files)
-        for (const key of keys) {
-            if(request.body[key] == "")
-            return response.send("Por favor, preencha todos os campos");
+        for (key of keys) {
+            if(request.body[key] == ""){
+                return response.send("Por favor, preencha todos os campos");
+            }
         }
 
-
-        if (!request.files) {
+        if (request.files == "") {
             return response.status(400).send('No files were uploaded.');
         }
-
-        // if(request.files.length == 0){
-        //     return response.send('Por favor, envie uma imagem');  
-        // }
 
         const filePromise =  request.files.map(file => File.create({
             ...file

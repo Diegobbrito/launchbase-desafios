@@ -9,7 +9,6 @@ module.exports = {
             ) VALUES ( $1, $2 )
             RETURNING id
         `
-
         const values = [
             filename,
             path
