@@ -42,38 +42,46 @@ module.exports = {
     },
 
     async post(request, response){
-        const keys = Object.keys(request.body);
-        const created_at = Date.now();
-
-        for (key of keys) {
-            if(request.body[key] == ""){
-                return response.send("Por favor, preencha todos os campos");
+        try {
+            
+            
+            
+            const keys = Object.keys(request.body);
+            const created_at = Date.now();
+            
+            for (key of keys) {
+                if(request.body[key] == ""){
+                    return response.send("Por favor, preencha todos os campos");
+                }
             }
+            
+            if (request.files == "") {
+                return response.status(400).send('No files were uploaded.');
+            }
+            
+            const filePromise =  request.files.map(file => File.create({
+                ...file
+            }));
+            let numId;
+            let fileId = await Promise.all(filePromise);
+            fileId.forEach(row => (numId=row.rows))
+            
+            const values = {
+                ...request.body,
+                created_at,
+                file_id: numId[0].id
+            }
+            
+            const chefId = await Chef.create(values);
+            
+            return response.redirect(`/admin/chefs/${chefId}`); 
+        } catch (error) {
+            console.log(error)
         }
-
-        if (request.files == "") {
-            return response.status(400).send('No files were uploaded.');
-        }
-
-        const filePromise =  request.files.map(file => File.create({
-            ...file
-        }))
-
-        await Promise.all(filePromise);
-
-        const chef = {
-            ...request.body,
-            created_at
-        }
-        
-        let results = await Chef.create(chef);
-        const chefId = results.rows[0].id;     
-        
-        return response.redirect(`/admin/chefs/${chefId}`); 
     }, 
     
     show(request, response){
-
+        
         Chef.find(request.params.id, function(chef){
             if(!chef) return response.send("Chefe não encontrado");
 

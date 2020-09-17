@@ -6,8 +6,10 @@ module.exports = {
 
     all(callback){
         db.query(`
-            SELECT * 
-            FROM chefs 
+            SELECT chefs.*, files.name as image
+            FROM chefs
+            JOIN files
+            on (chefs.file_id = files.id)
             ORDER BY name ASC
             `, function(err, results){
             if (err) throw `Erro no banco: ${err}`
@@ -28,7 +30,7 @@ module.exports = {
         const values = [
             data.name,
             date(data.created_at).iso,
-            data.id
+            data.file_id
         ]
 
         db.query(query, values, function(err, results){            
@@ -40,9 +42,11 @@ module.exports = {
 
     find(id, callback){
         db.query(`
-            SELECT *
+            SELECT chefs.*, files.name as image
             FROM chefs
-            WHERE id = $1
+            JOIN files
+            on (chefs.file_id = files.id)
+            WHERE chefs.id = $1
         `, [id], function(err, results){
             if(err) throw `Erro no banco: ${err}`
 
@@ -100,9 +104,12 @@ module.exports = {
         }
 
         query = `
-                SELECT *, ${totalQuery}
+                SELECT chefs.*, ${totalQuery}, files.name as image
                 FROM chefs
+                JOIN files
+                on (chefs.file_id = files.id)
                 ${filterQuery}
+                ORDER BY name ASC
                 LIMIT $1 OFFSET $2`
 
 
