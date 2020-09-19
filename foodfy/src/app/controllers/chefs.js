@@ -18,29 +18,22 @@ module.exports = {
             offset,
             callback(chefs){
 
-                    let pagination = {};
+                let pagination = {};
 
-                    if(chefs != undefined)
-                        pagination = { total: 0, page}
-                    else{
-                        pagination = {
-                            total: Math.ceil(chefs[0].total / limit),
-                            page
-                        }
+                if(chefs != undefined)
+                    pagination = { total: 0, page}
+                else{
+                    pagination = {
+                        total: Math.ceil(chefs[0].total / limit),
+                        page
                     }
-                    
-                    return response.render("admin/chefs/index", { chefs, pagination });
+                }
+                
+                return response.render("admin/chefs/index", { chefs, pagination });
             }
         }
 
-        Chef.paginate(params);
-
-        // Chef.all(function(students){    
-        //     students.map((student)=>{
-        //         student.education_level = grade(student.education_level);
-        //     });
-        //     return response.render("students/index", { students });
-        // });      
+        Chef.paginate(params);    
     },
 
     create(request, response){
@@ -65,6 +58,7 @@ module.exports = {
             const filePromise =  request.files.map(file => File.create({
                 ...file
             }));
+
             let numId;
             let fileId = await Promise.all(filePromise);
             fileId.forEach(row => (numId=row.rows))
@@ -74,7 +68,7 @@ module.exports = {
                 created_at,
                 file_id: numId[0].id
             }            
-            await Chef.create(values, (chefId)=>{
+            await Chef.create(values, chefId => {
                 return response.redirect(`/admin/chefs/${chefId}`); 
             });
 

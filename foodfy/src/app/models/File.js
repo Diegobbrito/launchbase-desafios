@@ -9,9 +9,26 @@ module.exports = {
             ) VALUES ( $1, $2 )
             RETURNING id
         `
+
         const values = [
             filename,
             path
+        ]
+
+        return db.query(query, values);
+    },
+    recipecreate(recipeId, fileId){
+        const query = `
+            INSERT INTO recipe_files (
+                recipe_id,
+                file_id
+            ) VALUES ( $1, $2 )
+            RETURNING id
+        `
+        
+        const values = [
+            recipeId,
+            fileId
         ]
 
         return db.query(query, values);

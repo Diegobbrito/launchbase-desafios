@@ -1,12 +1,8 @@
 const Recipes = require('../models/Recipes');
+const File = require('../models/File');
 
 module.exports = {
 
-    // (request, response) => {
-
-//     console.log(recipes)
-// });
-    
     indexAll(request, response){
     let { filter, page, limit } = request.query;
 
@@ -29,14 +25,7 @@ module.exports = {
         }
     }
 
-    Recipes.paginate(params);
-
-    // Recipes.all(function(recipes){    
-    //     recipes.map((recipe)=>{
-    //         recipe.education_level = grade(recipe.education_level);
-    //     });
-    //     return response.render("recipes/index", { recipes });
-    // });      
+    Recipes.paginate(params);  
     },
     
     index(request, response){
@@ -99,17 +88,21 @@ module.exports = {
                 ...file
             }));
 
-            let numId;
             let filesId = await Promise.all(filePromise);
-            filesId.forEach(row => (numId = row.rows))
             
             const values = {
                 ...request.body,
                 created_at,
             }
             
-            const recipeId = await Recipes.create(values);
-            return response.redirect(`/admin/recipes/${recipeId}`);
+            await Recipes.create(values, recipeId =>{
+                console.log(recipeId)
+                filesId.forEach(result => (
+                    File.recipecreate(recipeId, result.rows[0].id)
+                ))
+                return response.redirect(`/admin/recipes/${recipeId}`);
+            });
+
         } catch (error) {
             console.log(error)   
         }
