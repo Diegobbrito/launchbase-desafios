@@ -17,13 +17,19 @@ module.exports = {
             limit,
             offset,
             callback(chefs){
-                
-                const pagination = {
-                    total: Math.ceil(chefs[0].total / limit),
-                    page
-                }
 
-                return response.render("admin/chefs/index", { chefs, pagination });
+                    let pagination = {};
+
+                    if(chefs != undefined)
+                        pagination = { total: 0, page}
+                    else{
+                        pagination = {
+                            total: Math.ceil(chefs[0].total / limit),
+                            page
+                        }
+                    }
+                    
+                    return response.render("admin/chefs/index", { chefs, pagination });
             }
         }
 
