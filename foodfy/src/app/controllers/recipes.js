@@ -79,28 +79,44 @@ module.exports = {
         });
     },
 
-    post(request, response){
-        const keys = Object.keys(request.body);
+    async post(request, response){
+        try {
+            
+            const keys = Object.keys(request.body);
+            
+            const created_at = Date.now();
+            
+            for (const key of keys) {
+                if(request.body[key] == "")
+                return response.send("Por favor, preencha todos os campos")
+            }
 
-        const created_at = Date.now();
+            if (request.files == "") {
+                return response.status(400).send('No files were uploaded.');
+            }
+            
+            const filePromise =  request.files.map(file => File.create({
+                ...file
+            }));
 
-        for (const key of keys) {
-            if(request.body[key] == "")
-            return response.send("Por favor, preencha todos os campos")
+            let numId;
+            let fileId = await Promise.all(filePromise);
+            fileId.forEach(row => (numId = row.rows))
+            
+            const values = {
+                ...request.body,
+                created_at,
+            }
+            
+            const recipeId = await Recipes.create(values);
+            return response.redirect(`/admin/recipes/${recipeId}`);
+        } catch (error) {
+            console.log(error)   
         }
-
-        const recipe = {
-            ...request.body,
-            created_at
-        }
+        }, 
         
-        Recipes.create(recipe, function(recipe){
-            return response.redirect(`/admin/recipes/${recipe.id}`);
-        });        
-    }, 
-    
-    show(request, response){
-
+        show(request, response){
+            
         Recipes.find(request.params.id, function(recipe){
             if(!recipe) return response.send("Receita não encontrada");
              

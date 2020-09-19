@@ -43,9 +43,6 @@ module.exports = {
 
     async post(request, response){
         try {
-            
-            
-            
             const keys = Object.keys(request.body);
             const created_at = Date.now();
             
