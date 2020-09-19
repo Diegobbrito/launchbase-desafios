@@ -35,8 +35,7 @@ module.exports = {
 
         db.query(query, values, function(err, results){            
             if (err) throw `Erro no banco: ${err}`
-
-            callback(results.rows[0]);
+            callback(results.rows[0].id);
         });
     },
 
@@ -47,7 +46,7 @@ module.exports = {
             JOIN files
             on (chefs.file_id = files.id)
             WHERE chefs.id = $1
-        `, [id], function(err, results){
+        `, [id],function(err, results){
             if(err) throw `Erro no banco: ${err}`
 
             callback(results.rows[0]);

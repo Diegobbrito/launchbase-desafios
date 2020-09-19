@@ -100,8 +100,8 @@ module.exports = {
             }));
 
             let numId;
-            let fileId = await Promise.all(filePromise);
-            fileId.forEach(row => (numId = row.rows))
+            let filesId = await Promise.all(filePromise);
+            filesId.forEach(row => (numId = row.rows))
             
             const values = {
                 ...request.body,

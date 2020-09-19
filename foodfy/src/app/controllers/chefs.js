@@ -67,24 +67,22 @@ module.exports = {
                 ...request.body,
                 created_at,
                 file_id: numId[0].id
-            }
-            
-            const chefId = await Chef.create(values);
-            
-            return response.redirect(`/admin/chefs/${chefId}`); 
+            }            
+            await Chef.create(values, (chefId)=>{
+                return response.redirect(`/admin/chefs/${chefId}`); 
+            });
+
         } catch (error) {
             console.log(error)
         }
     }, 
     
-    show(request, response){
-        
+    show(request, response){        
         Chef.find(request.params.id, function(chef){
             if(!chef) return response.send("Chefe não encontrado");
 
             return response.render("admin/chefs/show", { chef });
         });
-        
     },
     
     edit(request, response){
