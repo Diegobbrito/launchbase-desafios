@@ -222,7 +222,7 @@ footer{
 
 .card-list{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     margin-right: 30px;
     margin-bottom: 30px;
     margin-top: 20px;

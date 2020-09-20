@@ -1,3 +1,4 @@
+const db = require('../../config/db');
 const Chef = require('../models/Chefs');
 const File = require('../models/File');
 
@@ -28,7 +29,7 @@ module.exports = {
                         page
                     }
                 }
-                
+
                 return response.render("admin/chefs/index", { chefs, pagination });
             }
         }
@@ -77,30 +78,53 @@ module.exports = {
         }
     }, 
     
-    show(request, response){        
-        Chef.find(request.params.id, function(chef){
-            if(!chef) return response.send("Chefe não encontrado");
+    async show(request, response){     
+        const results = await Chef.find(request.params.id);
+        const chef = results.rows[0];
+        
+        if(!chef) return response.send("Chef não encontrado");   
 
-            return response.render("admin/chefs/show", { chef });
-        });
+        return response.render("admin/chefs/show", { chef });
     },
     
-    edit(request, response){
+    async edit(request, response){
 
-        Chef.find(request.params.id, function(chef){
-            if(!chef) return response.send("Chef não encontrado");
-             
-            return response.render("admin/chefs/edit", { chef });
-        });
+        let results = await Chef.find(request.params.id);
+        const chef = results.rows[0];
+        results = await Chef.files(chef.id);
+        let files = results.rows
+        files = files.map(file => ({
+            ...file,
+            src: `${request.protocol}://${request.headers.host}${file.path.replace("public", "")}`
 
+        })); 
+
+        if(!chef) return response.send("Chef não encontrado");
+        
+        return response.render("admin/chefs/edit", { chef, files });
     },
     
-    put(request, response){
+    async put(request, response){
         const keys = Object.keys(request.body);
 
         for (const key of keys) {
-            if(request.body[key] == "")
+            if(request.body[key] == "" && key != "removed_files")
             return response.send("Por favor, preencha todos os campos")
+        }
+
+        if(request.files.length != 0){
+            const newFilesPromise = request.files.map(file => File.create({...file}))
+            let fileId = await Promise.all(newFilesPromise);
+            
+        } 
+
+        if(request.body.removed_files){
+            const removedFiles = request.body.removed_files.split(",");
+            const lastIndex = removedFiles.length - 1;
+            removedFiles.splice(lastIndex, 1);
+            
+            const removedFilesPromise = removedFiles.map(id => File.delete(id));   
+            await Promise.all(removedFilesPromise);
         }
 
         Chef.update(request.body, function(){
@@ -113,6 +137,6 @@ module.exports = {
         Chef.delete(request.body.id, function(){
             return response.redirect(`/admin/chefs`);
         });
-    },
+    }
     
 }

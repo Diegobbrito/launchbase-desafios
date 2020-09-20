@@ -21,6 +21,7 @@ module.exports = {
                 total: Math.ceil(recipes[0].total / limit),
                 page
             }
+
             return response.render("recipes/index", { recipes, pagination,  filter });
         }
     }
@@ -45,20 +46,14 @@ module.exports = {
             const pagination = {
                 total: Math.ceil(recipes[0].total / limit),
                 page
-            }
-            return response.render("admin/recipes/index", { recipes, pagination,  filter });
+            }  
+
+            return response.render("admin/recipes/index", { recipes, pagination,  filter, images });
 
         }
     }
 
-    Recipes.paginate(params);
-
-    // Recipes.all(function(recipes){    
-    //     recipes.map((recipe)=>{
-    //         recipe.education_level = grade(recipe.education_level);
-    //     });
-    //     return response.render("recipes/index", { recipes });
-    // });      
+    Recipes.paginate(params);  
     },
 
     create(request, response){
@@ -96,7 +91,7 @@ module.exports = {
             }
             
             await Recipes.create(values, recipeId =>{
-                console.log(recipeId)
+
                 filesId.forEach(result => (
                     File.recipecreate(recipeId, result.rows[0].id)
                 ))
@@ -108,12 +103,19 @@ module.exports = {
         }
         }, 
         
-        show(request, response){
-            
-        Recipes.find(request.params.id, function(recipe){
+    show(request, response){
+        
+        Recipes.find(request.params.id, recipe => {
             if(!recipe) return response.send("Receita não encontrada");
-             
-            return response.render("admin/recipes/show", { recipe });
+            
+            let images=[];    
+            let i = 0;
+            recipe.forEach( result => {
+                images[i] = result.image.replace("undefined", "");
+                i++;
+            })
+                
+            return response.render("admin/recipes/show", { recipe, images });
         });
         
     },

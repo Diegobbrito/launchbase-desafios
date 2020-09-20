@@ -12,9 +12,29 @@
             <h1>Editando receita</h1>
             <button type="submit">Salvar receita</button>
         </div>
-
-        <h2>Imagem da receita:</h2>
-        <input type="url" value={{recipe.image}} name="image">
+       <div class="container-photos">
+         <div id="photos-upload">
+            <input 
+                id="photos-input"
+                type="file" 
+                name="photos"
+                multiple
+                accept="image/*"
+                onchange="PhotoUpload.handleFileInput(event, 5)"
+            >
+            <span class="material-icons">
+                add
+            </span>
+        </div>
+            <div id="photos-preview"></div>
+            {% if files %}
+            {% for image in files %}
+            {% endfor %}
+            <div class="photo" id="{{image.id}}">
+                 <img src="{{image.src}}" alt="{{image.image}}">
+            </div>
+            {% endif %}
+        </div>
         <h2>Titulo</h2>
         <input type="text" value={{recipe.title}} name="title">
         <h2>Chef</h2>

@@ -39,30 +39,26 @@ module.exports = {
         });
     },
 
-    find(id, callback){
-        db.query(`
+    find(id){
+        return db.query(`
             SELECT chefs.*, files.name as image
             FROM chefs
             JOIN files
             on (chefs.file_id = files.id)
             WHERE chefs.id = $1
-        `, [id],function(err, results){
-            if(err) throw `Erro no banco: ${err}`
-
-            callback(results.rows[0]);
-        });
+        `, [id]);
     },
 
     update(data, callback){
         const query = `
         UPDATE chefs SET
             name = ($1),
-            avatar_url = ($2)
+            file_id = ($2)
         WHERE id = ($3)
         `
         const values = [
             data.name,
-            data.avatar_url, 
+            data.file_id, 
             data.id
         ]
         db.query(query, values, function(err, results){
@@ -118,6 +114,15 @@ module.exports = {
             callback(results.rows);
         });
 
+    },
+    files(id){
+        return db.query(`
+            SELECT files.*
+            FROM files
+            JOIN chefs
+            on (chefs.file_id = files.id)
+            WHERE chefs.id = $1
+        `, [id]);
     }
       
 }
