@@ -17,9 +17,15 @@ module.exports = {
         limit,
         offset,
         callback(recipes){
-            const pagination = {
-                total: Math.ceil(recipes[0].total / limit),
-                page
+            let pagination = {};
+
+            if(recipes != undefined)
+                pagination = { total: 0, page}
+            else{
+                pagination = {
+                    total: Math.ceil(recipes[0].total / limit),
+                    page
+                }
             }
 
             return response.render("recipes/index", { recipes, pagination,  filter });
@@ -43,12 +49,17 @@ module.exports = {
         limit,
         offset,
         callback(recipes){
-            const pagination = {
-                total: Math.ceil(recipes[0].total / limit),
-                page
-            }  
+            let pagination = {};
 
-            return response.render("admin/recipes/index", { recipes, pagination,  filter, images });
+            if(recipes != undefined)
+                pagination = { total: 0, page}
+            else{
+                pagination = {
+                    total: Math.ceil(recipes[0].total / limit),
+                    page
+                }
+            }
+            return response.render("admin/recipes/index", { recipes, pagination,  filter });
 
         }
     }
@@ -103,33 +114,39 @@ module.exports = {
         }
         }, 
         
-    show(request, response){
-        
-        Recipes.find(request.params.id, recipe => {
-            if(!recipe) return response.send("Receita não encontrada");
-            
-            let images=[];    
-            let i = 0;
-            recipe.forEach( result => {
-                images[i] = result.image.replace("undefined", "");
-                i++;
-            })
+    async show(request, response){
                 
-            return response.render("admin/recipes/show", { recipe, images });
-        });
+        let results = await Recipes.find(request.params.id)
+        const recipe = results.rows[0];
+        results = await Recipes.files(recipe.id);
+        let files = results.rows
+        files = files.map(file => ({
+            ...file,
+            src: `${request.protocol}://${request.headers.host}${file.path.replace("public", "")}`
+        })); 
+        
+        if(!recipe) return response.send("Receita não encontrada");
+            
+        return response.render("admin/recipes/show", { recipe, files });
         
     },
     
-    edit(request, response){
+    async edit(request, response){
 
-        Recipes.find(request.params.id, function(recipe){
-            if(!recipe) return response.send("Receita não encontrada");
+        let results = await Recipes.find(request.params.id)
+        const recipe = results.rows[0];
+        results = await Recipes.files(recipe.id);
+        let files = results.rows
+        files = files.map(file => ({
+            ...file,
+            src: `${request.protocol}://${request.headers.host}${file.path.replace("public", "")}`
+        })); 
+        let options = await Recipes.chefsSelectOptions();
+        options = options.rows;
 
-            Recipes.chefsSelectOptions(function(options){
-                return response.render("admin/recipes/edit", { recipe, chefOptions: options});
-            });           
-        });
-
+        console.log(files)
+        
+        return response.render("admin/recipes/edit", { recipe, files, chefOptions: options});
     },
     
     put(request, response){

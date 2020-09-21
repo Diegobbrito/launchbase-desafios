@@ -47,8 +47,8 @@ module.exports = {
         });
     },
 
-    find(id, callback){
-        db.query(`
+    find(id){
+        return db.query(`
             SELECT recipes.*, chefs.name as chef_name,  files.name as image
             FROM recipes
             LEFT JOIN chefs
@@ -58,11 +58,7 @@ module.exports = {
             JOIN  files
             ON (files.id = recipe_files.file_id)
             WHERE recipes.id =  $1
-        `, [id], function(err, results){
-            if(err) throw `Erro no banco: ${err}`
-
-            callback(results.rows);
-        });
+        `, [id]);
     },
 
     update(data, callback){
@@ -93,11 +89,7 @@ module.exports = {
     },
 
     chefsSelectOptions(callback){
-        db.query(`SELECT name, id FROM chefs`, function(err, results){
-            if (err) throw `Erro: ${err}`;
-
-            callback(results.rows);
-        });
+        return db.query(`SELECT name, id FROM chefs`);
     },
 
     paginate(params){
@@ -141,6 +133,17 @@ module.exports = {
             callback(results.rows);
         });
 
+    },
+    files(id){
+        return db.query(`
+            SELECT files.*
+            FROM files
+            JOIN  recipe_files
+            ON (files.id = recipe_files.file_id)
+            JOIN  recipes
+            ON (recipe_files.recipe_id = recipes.id)
+            WHERE recipes.id =  $1
+        `, [id]);
     }
       
 }

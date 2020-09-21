@@ -1,63 +1,60 @@
 {% extends "layout.njk" %}
 {% block content %}
 
-<div class="card">
-    <form class="form-delete" action="/admin/recipes?_method=DELETE" method="post">
-        <button type="submit" class="delete-button">Deletar</button>
-        <input type="hidden" name="id" value="{{chef.id}}">
-    </form>
-    <form action="/admin/recipes" method="post" enctype="multipart/form-data">
+    <div class="card">
+        <form class="form-delete" action="/admin/recipes?_method=DELETE" method="post">
+            <button type="submit" class="delete-button">Deletar</button>
+            <input type="hidden" name="id" value="{{chef.id}}">
+        </form>
+        <form action="/admin/recipes" method="post" enctype="multipart/form-data">
 
-        <div class="header-chef-create">
-            <h1>Editando receita</h1>
-            <button type="submit">Salvar receita</button>
-        </div>
-       <div class="container-photos">
-         <div id="photos-upload">
-            <input 
-                id="photos-input"
-                type="file" 
-                name="photos"
-                multiple
-                accept="image/*"
-                onchange="PhotoUpload.handleFileInput(event, 5)"
-            >
-            <span class="material-icons">
-                add
-            </span>
-        </div>
-            <div id="photos-preview"></div>
-            {% if files %}
-            {% for image in files %}
-            {% endfor %}
-            <div class="photo" id="{{image.id}}">
-                 <img src="{{image.src}}" alt="{{image.image}}">
+            <div class="header-chef-create">
+                <h1>Editando receita</h1>
+                <button type="submit">Salvar receita</button>
             </div>
-            {% endif %}
-        </div>
-        <h2>Titulo</h2>
-        <input type="text" value={{recipe.title}} name="title">
-        <h2>Chef</h2>
-        <select name="chef_id" id="">
-            {% for chef in chefOptions %}
-                <option value="{{chef.id}}">{{chef.name}}</option>
-            {% endfor %}
-        </select>
-        <h2>Ingredientes</h2>
-        <div id="ingredients">
-        <div class="ingredient">
-            {% for ingrediente in recipe.ingredients %}
-            {{ingrediente}}
-                <input type="text" name="ingredients[]" value={{ingrediente}}  />
-            {% endfor %}
-        </div>
-        </div>
-        <button type="button" class="add-ingredient">Add Ingredient</button>
-        <h2>Modo de preparo</h2>
-        <textarea name="preparation[]" cols="115" rows="10">{{recipe.preparation}}</textarea>
-        <h2>Informações adicionais</h2>
-        <textarea name="information"  cols="115" rows="10">{{recipe.information}}</textarea>
-    </form>
-</div>
+            <div class="container-photos">
+                <div id="photos-upload">
+                    <input id="photos-input" type="file" name="photos" multiple="multiple" accept="image/*" onchange="PhotoUpload.handleFileInput(event, 5)">
+                    <span class="material-icons">
+                        add
+                    </span>
+                </div>
+                <div id="photos-preview">
+                    {% if files %}
+                        {% for image in files %}
+                            <div class="photo" id="{{files.id}}">
+                                <img src="{{image.src}}" alt="{{image.image}}">
+                                <i class="material-icons" onclick="PhotoUpload.removeOldPhoto(event)"> close </i>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                    <input type="hidden" name="removed_files">
+            </div>
+
+            <h2>Titulo</h2>
+            <input type="text" value={{recipe.title}} name="title">
+            <h2>Chef</h2>
+            <select name="chef_id" id="">
+                {% for chef in chefOptions %}
+                    <option value="{{chef.id}}">{{chef.name}}</option>
+                {% endfor %}
+            </select>
+            <h2>Ingredientes</h2>
+            <div id="ingredients">
+                <div class="ingredient">
+                    {% for ingrediente in recipe.ingredients %}
+                        {{ingrediente}}
+                        <input type="text" name="ingredients[]" value={{ingrediente}}/>
+                    {% endfor %}
+                </div>
+            </div>
+            <button type="button" class="add-ingredient">Add Ingredient</button>
+            <h2>Modo de preparo</h2>
+            <textarea name="preparation[]" cols="115" rows="10">{{recipe.preparation}}</textarea>
+            <h2>Informações adicionais</h2>
+            <textarea name="information" cols="115" rows="10">{{recipe.information}}</textarea>
+        </form>
+    </div>
 
 {% endblock content %}

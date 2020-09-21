@@ -6,9 +6,18 @@
             <h1>Receita: {{recipe.title}}</h1>
             <a href="/admin/recipes/{{recipe.id}}/edit" class="button">Editar receita</a>
         </div>
-        <img src=/images/{{recipe.image}} class="recipe-img">
-        {% for image in images %}
-        {% endfor %}
+        <img src="{{files[0].src}}" class="recipe-img">
+
+        <div id="photos-select">
+            {% if files %}
+                {% for image in files %}
+                    <div class="photo" id="{{files[0].id}}">
+                        <img src="{{image.src}}" alt="{{files.image}}">  
+                    </div>  
+                {% endfor %}
+            {% endif %}
+        </div>    
+
         <div class="recipe-text">
 
             <h2>{{recipe.title}}</h2>
