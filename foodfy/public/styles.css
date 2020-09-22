@@ -8,7 +8,10 @@
 body, html {
     height: 100vh;
 }
-
+body{
+    display: flex;
+    flex-direction: column;
+}
 
 header{
     margin-top: 3.3%;
@@ -100,15 +103,17 @@ footer{
     height: 62px;
     background-color: #EEEEEE;
     display: flex;
-    align-items: center;
     justify-content: center;
     color: #999999;
     font-size: 14px;
     margin-top: auto;
-    position: fixed;
     bottom:0;
     left:0;
     width: 100%;
+}
+footer p{
+    margin-top: 30px;
+    height: 32px;
 }
 
 .about-content{
@@ -144,7 +149,7 @@ footer{
 .card{
     width: 90%;
     max-width: 940px;
-    margin: auto;
+    margin: 0 auto;
     position: relative;
 }
 
