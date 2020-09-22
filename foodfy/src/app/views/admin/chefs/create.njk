@@ -8,24 +8,7 @@
             <h1>Criando chef</h1>
             <button type="submit">Salvar chef</button>
         </div>
-        <h2>Nome</h2>
-        <input type="text" placeholder="Nome" name="name" required>
-        <h2>Avatar</h2>
-        <div>
-            <div id="photos-upload">
-                <input 
-                 id="photos-input"
-                 type="file" 
-                 name="photos"
-                 accept="image/*"
-                 onchange="PhotoUpload.handleFileInput(event,1)"
-                >
-                <p>Enviar avatar</p>
-            </div>
-            <div id="photos-preview">
-
-            </div>
-        </div>
+        {% include 'admin/chefs/fields.njk'%}
     </form>
 </div>
 
