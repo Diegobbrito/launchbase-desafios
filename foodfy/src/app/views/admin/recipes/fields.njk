@@ -1,0 +1,51 @@
+<div class="container-photos">
+    <div id="photos-upload">
+        <input id="photos-input" type="file" name="photos" multiple="multiple" accept="image/*" onchange="PhotoUpload.handleFileInput(event, 5)">
+        <span class="material-icons">
+            add
+        </span>
+    </div>
+    <div id="photos-preview">
+        {% if files %}
+            {% for image in files %}
+                <div class="photo" id="{{image.id}}">
+                    <img src="{{image.src}}" alt="{{image.image}}">
+                    <i class="material-icons" 
+                        onclick="PhotoUpload.removeOldPhoto(event)"
+                    >close</i>
+                </div>
+            {% endfor %}
+            <input type="hidden" name="removed_files">
+        {% endif %}
+    </div>
+</div>
+
+    <h2>Titulo</h2>
+    {% if recipe %}
+        <input type="text" value={{recipe.title}} name="title">
+    {%else%}
+        <input type="text" placeholder="Titulo" name="title">
+    {% endif %}
+    <h2>Chef</h2>
+    <select name="chef_id" id="">
+        {% for chef in chefOptions %}
+            <option value="{{chef.id}}">{{chef.name}}</option>
+        {% endfor %}
+    </select>
+    <h2>Ingredientes</h2>
+    <div id="ingredients">
+        <div class="ingredient">
+            {% if recipe %}
+                {% for ingrediente in recipe.ingredients %}
+                    <input type="text" name="ingredients[]" value={{ingrediente}}/>
+                {% endfor %}
+            {% else%}
+                <input type="text" name="ingredients[]" value="" placeholder="Ingredient" />
+            {% endif %}
+        </div>
+    </div>
+    <button type="button" class="add-ingredient">Add Ingredient</button>
+    <h2>Modo de preparo</h2>
+    <textarea name="preparation[]" cols="115" rows="10">{{recipe.preparation}}</textarea>
+    <h2>Informações adicionais</h2>
+    <textarea name="information" cols="115" rows="10">{{recipe.information}}</textarea>
