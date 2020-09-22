@@ -112,13 +112,19 @@ module.exports = {
             return response.send("Por favor, preencha todos os campos")
         }
 
-        if(request.files.length != 0){
-            const newFilesPromise = request.files.map(file => File.create({...file}))
-            let fileId = await Promise.all(newFilesPromise);
-            
-        } 
 
-        if(request.body.removed_files){
+        if(request.files.length != 0){     
+            const newFilesPromise = request.files.map(file => File.create({...file}))
+            let fileId = await Promise.all(newFilesPromise);  
+            fileId.forEach(row => (numId = row.rows));
+            chefToUpdate = {file_id: numId[0].id}
+
+        }else{
+            chefToUpdate = await Chef.find(request.body.id)
+            chefToUpdate = { file_id: chefToUpdate.rows[0].file_id }
+        }
+
+        if(request.body.removed_files != ""){
             const removedFiles = request.body.removed_files.split(",");
             const lastIndex = removedFiles.length - 1;
             removedFiles.splice(lastIndex, 1);
@@ -127,7 +133,12 @@ module.exports = {
             await Promise.all(removedFilesPromise);
         }
 
-        Chef.update(request.body, function(){
+        var values = {
+            ...request.body,
+            file_id: chefToUpdate.file_id
+        }   
+
+        await Chef.update(values, function(){
             return response.redirect(`/admin/chefs/${request.body.id}`);
         });
 

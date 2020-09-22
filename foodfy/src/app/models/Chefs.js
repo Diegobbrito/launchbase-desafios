@@ -51,10 +51,10 @@ module.exports = {
 
     update(data, callback){
         const query = `
-        UPDATE chefs SET
-            name = ($1),
-            file_id = ($2)
-        WHERE id = ($3)
+            UPDATE chefs SET
+                name = ($1),
+                file_id = ($2)
+            WHERE id = ($3)
         `
         const values = [
             data.name,

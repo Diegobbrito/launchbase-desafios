@@ -68,7 +68,6 @@ module.exports = {
     },
 
     create(request, response){
-
         Recipes.chefsSelectOptions(function(options){
             return response.render("admin/recipes/create", { chefOptions: options});
         });
@@ -112,7 +111,7 @@ module.exports = {
         } catch (error) {
             console.log(error)   
         }
-        }, 
+    }, 
         
     async show(request, response){
                 
@@ -143,8 +142,6 @@ module.exports = {
         })); 
         let options = await Recipes.chefsSelectOptions();
         options = options.rows;
-
-        console.log(files)
         
         return response.render("admin/recipes/edit", { recipe, files, chefOptions: options});
     },

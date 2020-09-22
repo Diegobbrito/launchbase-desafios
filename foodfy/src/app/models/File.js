@@ -40,6 +40,7 @@ module.exports = {
             const file = result.rows[0];
             
             fs.unlinkSync(file.path);
+            
             return db.query(`DELETE from files WHERE id = $1`, [id])
         } catch (error) {
             console.log(error);

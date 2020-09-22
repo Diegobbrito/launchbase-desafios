@@ -14,6 +14,7 @@
         </div>
         <h2>Nome</h2>
         <input type="text" value={{chef.name}} name="name">
+        <input type="hidden" name="id" value={{chef.id}}>
         <h2>Avatar</h2>
         <div>
             <div id="photos-upload">
@@ -22,6 +23,7 @@
                  type="file" 
                  name="photos"
                  accept="image/*"
+                 value={{chef.file_id}}
                  onchange="PhotoUpload.handleFileInput(event,1)"
                 >
                 <p>Enviar avatar</p>
