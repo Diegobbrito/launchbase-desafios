@@ -6,7 +6,10 @@
             <button type="submit" class="delete-button">Deletar</button>
             <input type="hidden" name="id" value="{{chef.id}}">
         </form>
-        <form action="/admin/recipes" method="post" enctype="multipart/form-data">
+        <form action="/admin/recipes?_method=PUT" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" name="id" value="{{recipe.id}}">
+
 
             <div class="header-chef-create">
                 <h1>Editando receita</h1>
@@ -22,14 +25,16 @@
                 <div id="photos-preview">
                     {% if files %}
                         {% for image in files %}
-                            <div class="photo" id="{{files.id}}">
+                            <div class="photo" id="{{image.id}}">
                                 <img src="{{image.src}}" alt="{{image.image}}">
-                                <i class="material-icons" onclick="PhotoUpload.removeOldPhoto(event)"> close </i>
+                                <i class="material-icons" 
+                                  onclick="PhotoUpload.removeOldPhoto(event)"
+                                >close</i>
                             </div>
                         {% endfor %}
+                        <input type="hidden" name="removed_files">
                     {% endif %}
                 </div>
-                    <input type="hidden" name="removed_files">
             </div>
 
             <h2>Titulo</h2>

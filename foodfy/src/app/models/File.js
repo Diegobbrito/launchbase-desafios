@@ -45,6 +45,22 @@ module.exports = {
         } catch (error) {
             console.log(error);
         }
+    },
+    async deleteRecipe(id){
+        try {
+            const result = await db.query(`SELECT * FROM files WHERE id = $1`, [id]);
+            const file = result.rows[0];
+            
+            fs.unlinkSync(file.path);
+            
+            return db.query(`
+                DELETE from files
+                USING recipe_files
+                WHERE recipe_files.file_id = files.id 
+                AND files.id = $1`, [id]);
+        } catch (error) {
+            console.log(error);
+        }
     }
    
 }

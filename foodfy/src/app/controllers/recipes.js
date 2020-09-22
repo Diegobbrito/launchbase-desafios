@@ -67,10 +67,15 @@ module.exports = {
     Recipes.paginate(params);  
     },
 
-    create(request, response){
-        Recipes.chefsSelectOptions(function(options){
+    async create(request, response){
+        try { 
+            let options = await Recipes.chefsSelectOptions();
+            options = options.rows;
+            
             return response.render("admin/recipes/create", { chefOptions: options});
-        });
+        } catch (error) {
+            console.log(error)
+        }
     },
 
     async post(request, response){
@@ -146,16 +151,33 @@ module.exports = {
         return response.render("admin/recipes/edit", { recipe, files, chefOptions: options});
     },
     
-    put(request, response){
+    async put(request, response){
         const keys = Object.keys(request.body);
 
         for (const key of keys) {
-            if(request.body[key] == "")
-            return response.send("Por favor, preencha todos os campos")
+            if(request.body[key] == "" && key != "removed_files")
+                return response.send("Preencha todos os campos");
+        }
+
+        if(request.files.length != 0){     
+            const newFilesPromise = request.files.map(file => File.create({...file}))
+            fileId = await Promise.all(newFilesPromise);  
+            fileId.forEach(result => (
+                File.recipecreate(request.body.id, result.rows[0].id)
+            ));
+        }
+
+        if(request.body.removed_files != ""){
+            const removedFiles = request.body.removed_files.split(",");
+            const lastIndex = removedFiles.length - 1;
+            removedFiles.splice(lastIndex, 1);
+            
+            const removedFilesPromise = removedFiles.map(id => File.delete(id));   
+            await Promise.all(removedFilesPromise);
         }
 
         Recipes.update(request.body, function(){
-            return response.redirect(`admin/recipes/${request.body.id}`);
+            return response.redirect(`/admin/recipes/${request.body.id}`);
         });
 
     },

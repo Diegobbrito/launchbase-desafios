@@ -63,14 +63,20 @@ module.exports = {
 
     update(data, callback){
         const query = `
-        UPDATE recipes SET
-            name = ($1),
-            avatar_url = ($2)
-        WHERE id = ($3)
+            UPDATE recipes SET
+                chef_id = ($1),
+                title = ($2),
+                ingredients = ($3),
+                preparation = ($4),
+                information = ($5)
+            WHERE id = ($6)
         `
         const values = [
-            data.name,
-            data.avatar_url, 
+            data.chef_id,
+            data.title,
+            data.ingredients,
+            data.preparation,
+            data.information,
             data.id
         ]
         db.query(query, values, function(err, results){

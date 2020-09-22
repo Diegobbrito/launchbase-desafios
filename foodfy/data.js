@@ -62,10 +62,11 @@ module.exports = [
         '1/2 xícara (chá) de óleo',
         '1 xícara de molho barbecue'
       ],
-      preparation: [
-        'Em uma tigela coloque o encontro de asinha de galinha e polvilhe a farinha de trigo e misture com as mãos.',
-        'Em uma frigideira ou assador coloque o óleo quando estiver quente frite até ficarem douradas.',
-        'Para servir fica bonito com salada, ou abuse da criatividade.'
+      preparation: [/*
+        Em uma tigela coloque o encontro de asinha de galinha e polvilhe a farinha de trigo e misture com as mãos.
+        Em uma frigideira ou assador coloque o óleo quando estiver quente frite até ficarem douradas.
+        Para servir fica bonito com salada, ou abuse da criatividade.
+        */
       ],
       information: ''
     },
