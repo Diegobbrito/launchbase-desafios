@@ -49,14 +49,10 @@ module.exports = {
 
     find(id){
         return db.query(`
-            SELECT recipes.*, chefs.name as chef_name,  files.name as image
+            SELECT recipes.*, chefs.name as chef_name
             FROM recipes
             LEFT JOIN chefs
             ON (chefs.id = recipes.chef_id)
-            JOIN  recipe_files
-            ON (recipe_files.recipe_id = recipes.id)
-            JOIN  files
-            ON (files.id = recipe_files.file_id)
             WHERE recipes.id =  $1
         `, [id]);
     },
@@ -121,14 +117,10 @@ module.exports = {
         }
 
         query = `
-                SELECT recipes.*, ${totalQuery}, chefs.name as chef_name, files.name as image
+                SELECT recipes.*, ${totalQuery}, chefs.name as chef_name
                 FROM recipes
                 LEFT JOIN chefs
                 ON (chefs.id = recipes.chef_id)
-                JOIN  recipe_files
-                ON (recipe_files.recipe_id = recipes.id)
-                JOIN  files
-                ON (files.id = recipe_files.file_id)
                 ${filterQuery}
                 LIMIT $1 OFFSET $2`
 

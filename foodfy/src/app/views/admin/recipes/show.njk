@@ -6,17 +6,26 @@
             <h1>Receita: {{recipe.title}}</h1>
             <a href="/admin/recipes/{{recipe.id}}/edit" class="button">Editar receita</a>
         </div>
-        <img src="{{files[0].src}}" class="recipe-img">
+        <div class="gallery">
+            <div class="highlight">
+                <img src="{{files[0].src}}" alt="{{files[0].name}}">
+            </div>
 
-        <div id="photos-select">
-            {% if files %}
+            <div id="gallery-preview">
                 {% for image in files %}
-                    <div class="photo" id="{{files[0].id}}">
-                        <img src="{{image.src}}" alt="{{files.image}}">  
+                    <div class="photo" id="{{image.id}}">
+                        <img 
+                            src="{{image.src}}" 
+                            alt="{{files.image}}"
+                            {% if loop.index0 == 0 %}
+                            class="active"
+                            {% endif %} 
+                            onclick="ImageGallery.setImage(event)"
+                        >  
                     </div>  
                 {% endfor %}
-            {% endif %}
-        </div>    
+            </div>    
+        </div>
 
         <div class="recipe-text">
 
@@ -40,7 +49,9 @@
             {{recipe.preparation}}
         </p>
         <h2>Informações adicionais</h2>
-            {{recipe.information}}
+            <p>
+                {{recipe.information}}
+            </p>
         </div>
 </div>
 

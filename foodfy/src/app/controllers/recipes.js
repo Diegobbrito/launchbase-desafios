@@ -36,35 +36,37 @@ module.exports = {
     },
     
     index(request, response){
-    let { filter, page, limit } = request.query;
+        let { filter, page, limit } = request.query;
 
-    page = page || 1;
-    limit = limit || 5;
+        page = page || 1;
+        limit = limit || 5;
 
-    let offset =  limit * (page - 1);
+        let offset =  limit * (page - 1);
 
-    const params = {
-        filter,
-        page,
-        limit,
-        offset,
-        callback(recipes){
-            let pagination = {};
+        const params = {
+            filter,
+            page,
+            limit,
+            offset,
+            callback(recipes){
+                let pagination = {};
 
-            if(recipes != undefined)
-                pagination = { total: 0, page}
-            else{
-                pagination = {
-                    total: Math.ceil(recipes[0].total / limit),
-                    page
+                if(recipes != undefined)
+                    pagination = { total: 0, page}
+                else{
+                    pagination = {
+                        total: Math.ceil(recipes[0].total / limit),
+                        page
+                    }
                 }
+
+                return response.render("admin/recipes/index", { recipes, pagination,  filter });
+
             }
-            return response.render("admin/recipes/index", { recipes, pagination,  filter });
-
         }
-    }
 
-    Recipes.paginate(params);  
+        Recipes.paginate(params);  
+
     },
 
     async create(request, response){
