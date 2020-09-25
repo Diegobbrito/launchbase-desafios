@@ -1,10 +1,11 @@
 const express = require('express');
 const routes = express.Router();
 const multer = require('./app/middlewares/multer');
-const recipes = require('./app/controllers/recipes');
-const chefs = require('./app/controllers/chefs');
+const recipes = require('./app/controllers/RecipesController');
+const home = require('./app/controllers/HomeController');
+const chefs = require('./app/controllers/ChefsController');
 
-routes.get("/", recipes.indexAll)
+routes.get("/", home.index)
 
 
 routes.get("/about", (request, response) => {

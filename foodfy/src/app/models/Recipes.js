@@ -3,20 +3,14 @@ const { date } = require('../../lib/utils');
 
 module.exports = {
 
-    all(callback){
-        db.query(`
-            SELECT recipes.*, chefs.name as chef_name, files.name as image
+    all(){
+        return db.query(`
+            SELECT recipes.*, chefs.name as chef_name
             FROM recipes
             LEFT JOIN chefs
             ON (chefs.id = recipes.chef_id)
-            JOIN  recipe_files
-            ON (recipe_files.recipe_id = recipes.id)
-            JOIN  files
-            ON (files.id = recipe_files.file_id)
-            `, function(err, results){
-            if (err) throw `Erro no banco: ${err}`
-            callback(results.rows)
-        });
+            `
+        );
     },
 
     create(data, callback){

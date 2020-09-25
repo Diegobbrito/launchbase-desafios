@@ -141,10 +141,6 @@ const ImageGallery = {
     setImage(event){
         const {target} = event
 
-        console.log(ImageGallery.previews)
-
-
-
         ImageGallery.previews.forEach( preview => preview.classList.remove('active'));
         target.classList.add('active');
 
