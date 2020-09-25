@@ -2,40 +2,9 @@ const Recipes = require('../models/Recipes');
 const File = require('../models/File');
 
 module.exports = {
-
-    indexAll(request, response){
-    let { filter, page, limit } = request.query;
-
-    page = page || 1;
-    limit = limit || 5;
-
-    let offset =  limit * (page - 1);
-
-    const params = {
-        filter,
-        page,
-        limit,
-        offset,
-        callback(recipes){
-            let pagination = {};
-
-            if(recipes != undefined)
-                pagination = { total: 0, page}
-            else{
-                pagination = {
-                    total: Math.ceil(recipes[0].total / limit),
-                    page
-                }
-            }
-
-            return response.render("recipes/index", { recipes, pagination,  filter });
-        }
-    }
-
-    Recipes.paginate(params);  
-    },
     
-    index(request, response){
+    async index(request, response){
+
         let { filter, page, limit } = request.query;
 
         page = page || 1;
@@ -43,30 +12,34 @@ module.exports = {
 
         let offset =  limit * (page - 1);
 
+        
         const params = {
             filter,
             page,
             limit,
-            offset,
-            callback(recipes){
-                let pagination = {};
-
-                if(recipes != undefined)
-                    pagination = { total: 0, page}
-                else{
-                    pagination = {
-                        total: Math.ceil(recipes[0].total / limit),
-                        page
-                    }
-                }
-
-                return response.render("admin/recipes/index", { recipes, pagination,  filter });
-
-            }
+            offset
         }
+        const results = await Recipes.paginate(params);
+        recipes = results.rows
+        
+        async function getImage(recipeId){
+            let results = await Recipes.files(recipeId)
+            const files = results.rows.map(file => `${request.protocol}://${request.headers.host}${file.path.replace("public", "")}`)
+            return files[0];
+        }
+    
+        const recipesPromise = recipes.map(async recipe => {
+            recipe.src = await getImage(recipe.id)
+            return recipe;
+        })
+        
+        recipes = await Promise.all(recipesPromise);
+    
 
-        Recipes.paginate(params);  
-
+        let pagination = { total: Math.ceil(recipes[0].total / limit) || 1, page } 
+        console.log(recipes)
+        
+        return response.render("admin/recipes/index", { recipes, pagination });
     },
 
     async create(request, response){

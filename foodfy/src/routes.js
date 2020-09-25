@@ -4,6 +4,7 @@ const multer = require('./app/middlewares/multer');
 const recipes = require('./app/controllers/RecipesController');
 const home = require('./app/controllers/HomeController');
 const chefs = require('./app/controllers/ChefsController');
+const HomeController = require('./app/controllers/HomeController');
 
 routes.get("/", home.index)
 
@@ -12,24 +13,9 @@ routes.get("/about", (request, response) => {
     return response.render("about");
 });
 
-routes.get("/recipes", (request, response) => {
-    return response.render("recipes/recipes", {recipes});
-});
+routes.get("/recipes", HomeController.recipes);
 
-routes.get("/recipe/:id", function (request, response) {
-    const id = request.params.id;
-
-
-    const recipe = recipes.find(function(recipe){
-        return recipe.id == id;
-    });
-
-    if(!recipe){
-        return response.send("Receita não encontrada");
-    }
-    
-    response.render("recipe", {recipe});
-});
+routes.get("/recipe/:id", HomeController.show);
 
 
 

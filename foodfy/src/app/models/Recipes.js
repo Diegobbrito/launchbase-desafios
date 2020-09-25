@@ -89,7 +89,8 @@ module.exports = {
     },
 
     paginate(params){
-        const { filter, limit, offset, callback } = params;
+
+        const { filter, limit, offset } = params;
 
 
         let query = "",
@@ -118,12 +119,7 @@ module.exports = {
                 ${filterQuery}
                 LIMIT $1 OFFSET $2`
 
-
-        db.query(query, [limit, offset], function(err, results){
-            if(err) throw `Banco error: ${err}`;
-
-            callback(results.rows);
-        });
+        return db.query(query, [limit, offset]);
 
     },
     files(id){

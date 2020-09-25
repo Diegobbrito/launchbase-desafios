@@ -1,29 +1,56 @@
 {% extends "layout.njk" %}
 {% block content %}
 
-<div class="mais-acessadas">
-    <div class="recipes">
-            <div class="recipe">
-                <img src={{recipe.image}} alt="">
-                <h2>{{recipe.title}}</h2>
-                <h3>por {{recipe.author}}</h3>
-                <h2>Ingredientes</h2>
-                <a id=0 class="active">Mostrar</a>
-                <p class="hide">
-                {{recipe.ingredients}}
-                </p>
-                <h2>Modo de preparo</h2>
-                <a id=1 class="show">Mostrar</a>
-                <p class="hide">
-                {{recipe.preparation}}
-                </p>
-                <h2>Informações</h2>
-                <a id=2 class="show">Mostrar</a>
-                <p class="hide">
-                {{recipe.information}}
-                </p>
+<div class="card">
+        
+        <div class="gallery">
+            <div class="highlight">
+                <img src="{{files[0].src}}" alt="{{files[0].name}}">
             </div>
-    </div>
+
+            <div id="gallery-preview">
+                {% for image in files %}
+                    <div class="photo" id="{{image.id}}">
+                        <img 
+                            src="{{image.src}}" 
+                            alt="{{files.image}}"
+                            {% if loop.index0 == 0 %}
+                            class="active"
+                            {% endif %} 
+                            onclick="ImageGallery.setImage(event)"
+                        >  
+                    </div>  
+                {% endfor %}
+            </div>    
+        </div>
+
+        <div class="recipe-text">
+
+            <h2>{{recipe.title}}</h2>
+            <h3>por {{recipe.chef_name}}</h3>
+        </div>
+        <div class="recipe-content">
+
+        <h2>Ingredientes</h2>
+            {% for ingrediente in recipe.ingredients %}
+        <p>
+            {% if ingrediente != "" %}
+                <li>
+                    {{ingrediente}}
+                </li>
+        </p>
+            {% endif %}
+        {% endfor %}
+        <h2>Modo de preparo</h2>
+        <p>
+            {{recipe.preparation}}
+        </p>
+        <h2>Informações adicionais</h2>
+            <p>
+                {{recipe.information}}
+            </p>
+        </div>
 </div>
+
 
 {% endblock content %}

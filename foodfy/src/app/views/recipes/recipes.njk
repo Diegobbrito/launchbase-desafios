@@ -5,18 +5,12 @@
     <div class="receitas">
         {% for recipe in recipes %}
             <div class="receita" id="{{recipe.id}}">
-                <img src={{recipe.image}} alt="">
+                <img src={{recipe.src}} >
                 <h2>{{recipe.title}}</h2>
-                <h3>por {{recipe.author}}</h3>
+                <h3>por {{recipe.chef_name}}</h3>
             </div>
         {% endfor %}
-        {% for recipe in recipes %}
-            <div class="receita">
-                <img src={{recipe.image}} alt="">
-                <h2>{{recipe.title}}</h2>
-                <h3>por {{recipe.author}}</h3>
-            </div>
-        {% endfor %}
+        
     </div>
 </div>
 

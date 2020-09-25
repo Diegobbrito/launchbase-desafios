@@ -8,7 +8,7 @@
     <div class="card-list">
         {% for recipe in recipes %}
         <div class="recipe-list">
-            <img src=/images/{{recipe.image}} >
+            <img src={{recipe.src}} >
             <div class="recipe-text-list">
             <span>{{recipe.title}}</span>
             <span>por  {{recipe.chef_name}}</span>
