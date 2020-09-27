@@ -180,7 +180,14 @@ footer p{
     box-sizing: border-box;
     background-color: #F1F1F1;
 }
-
+.user-register input {
+    width: 50%;
+}
+.user-register h1 {
+    width: 50%;
+    margin-bottom: 16px;
+    text-align: center;
+}
 .card button,
 .card .button{
     text-decoration: none;

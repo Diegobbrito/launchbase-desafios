@@ -1,0 +1,16 @@
+{% block content %}
+<div class="item">
+    
+</div>
+<h3>Nome Completo</h3>
+    <input type="text" name="name" placeholder="Nome" required>
+    <input type="hidden" name="id" value={{user.id}}>
+<h3>Email</h3>
+<input type="email" name="email" placeholder="Email" required>
+<h3>Senha</h3>
+<input type="password" name="password" required>
+{% if not user.id%}
+<h3>Repita a senha</h3>
+<input type="password" name="passwordRepeat" required>
+{% endif%}
+{% endblock content %}

@@ -34,10 +34,8 @@ module.exports = {
         })
         
         recipes = await Promise.all(recipesPromise);
-    
 
         let pagination = { total: Math.ceil(recipes[0].total / limit) || 1, page } 
-        console.log(recipes)
         
         return response.render("admin/recipes/index", { recipes, pagination });
     },
