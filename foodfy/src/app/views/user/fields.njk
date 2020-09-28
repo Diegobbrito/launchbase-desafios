@@ -5,8 +5,16 @@
 <h3>Nome Completo</h3>
     <input type="text" name="name" placeholder="Nome" required>
     <input type="hidden" name="id" value={{user.id}}>
+<div>
+
 <h3>Email</h3>
-<input type="email" name="email" placeholder="Email" required>
+<input 
+ type="email" 
+ name="email" 
+ placeholder="Email" 
+ onblur="Validate.apply(this, 'isEmail')"
+ required>
+</div>
 <h3>Senha</h3>
 <input type="password" name="password" required>
 {% if not user.id%}

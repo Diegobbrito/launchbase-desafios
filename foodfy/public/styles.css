@@ -452,3 +452,17 @@ form #photos-preview img{
 #gallery-preview .photo img.active{
     opacity: 1;
 }
+
+/* Validate Errors */
+
+.error {
+    background-color: #e74c3c;
+    padding: 4px;
+    border-radius: 4px;
+    color: white;
+    width: 49%;
+    text-align: center;
+    font: bold;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
