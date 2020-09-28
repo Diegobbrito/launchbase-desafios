@@ -2,7 +2,7 @@ const express = require('express');
 const routes = express.Router();
 const UserController = require('../app/controllers/UserController');
 const SessionController = require('../app/controllers/SessionController');
-
+const ValidatorUser = require('../app/validators/user')
 
 //Rotas de Login/Logout
 // routes.get('/login', SessionController.loginForm)
@@ -17,6 +17,6 @@ const SessionController = require('../app/controllers/SessionController');
 
 //Registro de um usuário
 routes.get('/register', UserController.registerForm)
-// routes.post('/register', UserController.post)
+routes.post('/register', ValidatorUser.post, UserController.post)
 
 module.exports = routes;
