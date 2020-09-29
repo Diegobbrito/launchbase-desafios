@@ -17,6 +17,7 @@ const ValidatorUser = require('../app/validators/user')
 
 //Registro de um usuário
 routes.get('/register', UserController.registerForm)
+routes.get('/', UserController.show)
 routes.post('/register', ValidatorUser.post, UserController.post)
 
 module.exports = routes;

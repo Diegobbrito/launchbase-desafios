@@ -1,3 +1,5 @@
+const User = require("../models/User");
+
 class UserController{
     
     registerForm(request, response){
@@ -5,9 +7,13 @@ class UserController{
     }
 
     async post(request, response){
-
+        const userId = await User.create(request.body);
         
+        response.redirect('/users')
+    }
 
+    show(request, response ){
+        return response.send('OK')
     }
 }
 

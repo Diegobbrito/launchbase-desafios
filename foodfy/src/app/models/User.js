@@ -1,4 +1,5 @@
 const db = require('../../config/db');
+const { hash } = require('bcryptjs');
 
 module.exports = {
 
@@ -17,11 +18,12 @@ module.exports = {
         let query = "SELECT * FROM users"
 
         Object.keys(filters).map(key => {
-            query = `${query}${key}`;
+            query = `${query}
+            ${key}`
 
-            Object.keys(filters[key].map(field => {
+            Object.keys(filters[key]).map(field => {
                 query = `${query} ${field} = '${filters[key][field]}'`
-            }));
+            });
         });
 
         const results = await db.query(query);
@@ -29,25 +31,32 @@ module.exports = {
         return results.rows[0]; 
     },
 
-    create(data, callback){
-        const query =  `
+    async create(data, callback){
+        try {
+            
+            const query =  `
             INSERT INTO public.users (
                 name,
-            ) VALUES ($1, $2, $3)
-            RETURNING id
-            `
-        const values = [
-            data.name,
-            date(data.created_at).iso,
-            data.file_id
-        ]
-
-        db.query(query, values, function(err, results){            
-            if (err) throw `Erro no banco: ${err}`
-            callback(results.rows[0].id);
-        });
+                email, 
+                password               
+                ) VALUES ($1, $2, $3)
+                RETURNING id
+                `
+                //npm install bcryptjs
+                const passwordHash = await hash(data.password, 8)
+                const values = [
+                    data.name,
+                    data.email,
+                    passwordHash
+                ]
+                const results = await db.query(query, values);
+                
+                return results.rows[0].id;
+            } catch (error) {
+                console.log(error)
+            }
     },
-
+            
     find(id){
         return db.query(`
             SELECT *
@@ -56,23 +65,33 @@ module.exports = {
         `, [id]);
     },
 
-    update(data, callback){
-        const query = `
+    async update(data, callback){
+        try {
+            
+            const query = `
             UPDATE users SET
-                name = ($1),
-                file_id = ($2)
-            WHERE id = ($3)
-        `
-        const values = [
-            data.name,
-            data.file_id, 
-            data.id
-        ]
-        db.query(query, values, function(err, results){
-            if (err) throw `Erro no banco: ${err}`
-
-            callback();
-        });
+            name = ($1),
+            email = ($2)
+            password = ($3)
+            WHERE id = ($4)
+            `
+            
+            const passwordHash = await hash(data.password, 8)
+            
+            const values = [
+                data.name,
+                data.email,
+                passwordHash, 
+                data.id
+            ]
+            db.query(query, values, function(err, results){
+                if (err) throw `Erro no banco: ${err}`
+                
+                callback();
+            });
+            } catch (error) {
+                console.log(error)
+            }
     },
 
     delete(id, callback){

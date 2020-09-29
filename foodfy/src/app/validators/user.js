@@ -4,8 +4,12 @@ async function post(request, response, next){
 
     const keys = Object.keys(request.body)
     for(key of keys){
-        if(request.body[key] == "")
-        return response.send("Por favor, preenche todos os campos");
+        if(request.body[key] == ""){
+            return response.render('user/register', {
+                user:request.body,
+                error: "Por favor, preencher todos os campos"
+            });
+        }
     }
     
     const { email, password, passwordRepeat } = request.body;
@@ -14,9 +18,19 @@ async function post(request, response, next){
         where: {email}
     });
     
-    if(user) return response.send('Usuário já cadastrado');
+    if(user){
+        return response.render('user/register', {
+            user:request.body,
+            error: 'Usuário já cadastrado'
+        });
+    }
     
-    if(password != passwordRepeat) return response.send('Senhas diferentes');
+    if(password != passwordRepeat){
+        return response.render('user/register', {
+            user:request.body,
+            error: 'Senhas diferentes'
+        });
+    } 
 
     next()
      
