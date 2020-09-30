@@ -1,10 +1,13 @@
 class SessionController{
 
     loginForm(request, response){
-        return response.render("session/index");
+        return response.render("session/login");
     }
 
     login(request, response){
+        request.session.userId = request.user.id;
+
+        return response.redirect("/users");
     }
     
     logout(request, response){
