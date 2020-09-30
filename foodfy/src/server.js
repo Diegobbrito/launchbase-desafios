@@ -6,6 +6,10 @@ const session = require('./config/session');
 const server = express();
 
 server.use(session);
+server.use((request, response, next) => {
+    response.locals.session = request.session;
+    next();
+});
 
 server.use(express.urlencoded({extended: true}));
 server.use(express.static('public'));

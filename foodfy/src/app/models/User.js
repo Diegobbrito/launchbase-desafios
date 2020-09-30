@@ -67,7 +67,6 @@ module.exports = {
 
     async update(data, callback){
         try {
-            
             const query = `
             UPDATE users SET
             name = ($1),

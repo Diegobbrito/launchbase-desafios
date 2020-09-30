@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+const User = require('../models/User');
 class SessionController{
 
     loginForm(request, response){
@@ -21,6 +23,13 @@ class SessionController{
 
     resetForm(request, response){
         return response.render("session/reset-password");
+    }
+    forgot(request, response){
+        const token = crypto.randomBytes(20).toString("hex");
+        let now = new Date();
+        now = now.setHours(now.getHours() + 2);
+
+        await User.update(id, fields)
     }
 }
 

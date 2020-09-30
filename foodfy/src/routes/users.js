@@ -4,16 +4,17 @@ const UserController = require('../app/controllers/UserController');
 const SessionController = require('../app/controllers/SessionController');
 const UserValidator = require('../app/validators/user');
 const SessionValidator = require('../app/validators/session');
+const { isLoggedRedirectToUsers } = require('../app/middlewares/session'); 
 
 //Rotas de Login/Logout
-routes.get('/login', SessionController.loginForm)
+routes.get('/login', isLoggedRedirectToUsers, SessionController.loginForm)
 routes.post('/login', SessionValidator.login, SessionController.login)
 routes.post('/logout', SessionController.logout)
 
 //Rotas de reset de senha
 routes.get('/forgot-password', SessionController.forgotForm)
 routes.get('/password-reset', SessionController.resetForm)
-// routes.post('/forgot-password', SessionController.forgot)
+routes.post('/forgot-password', SessionValidator.forgot, SessionController.forgot)
 // routes.post('/password-reset', SessionController.reset)
 
 //Registro de um usuário
