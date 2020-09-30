@@ -7,19 +7,20 @@ const SessionValidator = require('../app/validators/session');
 const { isLoggedRedirectToUsers } = require('../app/middlewares/session'); 
 
 //Rotas de Login/Logout
-routes.get('/login', isLoggedRedirectToUsers, SessionController.loginForm)
-routes.post('/login', SessionValidator.login, SessionController.login)
-routes.post('/logout', SessionController.logout)
+routes.get('/login', isLoggedRedirectToUsers, SessionController.loginForm);
+routes.post('/login', SessionValidator.login, SessionController.login);
+routes.post('/logout', SessionController.logout);
 
 //Rotas de reset de senha
-routes.get('/forgot-password', SessionController.forgotForm)
-routes.get('/password-reset', SessionController.resetForm)
-routes.post('/forgot-password', SessionValidator.forgot, SessionController.forgot)
-routes.post('/password-reset', SessionController.reset)
+routes.get('/forgot-password', SessionController.forgotForm);
+routes.post('/forgot-password', SessionValidator.forgot, SessionController.forgot);
+routes.get('/password-reset', SessionController.resetForm);
+routes.post('/password-reset', SessionValidator.reset, SessionController.reset);
 
 //Registro de um usuário
-routes.get('/register', UserController.registerForm)
-routes.get('/', UserController.show)
-routes.post('/register', UserValidator.post, UserController.post)
+routes.get('/register', UserController.registerForm);
+routes.put('/', UserValidator.update, UserController.update);
+routes.get('/', UserController.show);
+routes.post('/register', UserValidator.post, UserController.post);
 
 module.exports = routes;

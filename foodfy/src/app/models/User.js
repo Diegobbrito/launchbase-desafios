@@ -31,14 +31,13 @@ module.exports = {
         return results.rows[0]; 
     },
 
-    async create(data, callback){
+    async create(data){
         try {
-            
             const query =  `
-            INSERT INTO public.users (
-                name,
-                email, 
-                password               
+                INSERT INTO public.users (
+                    name,
+                    email, 
+                    password               
                 ) VALUES ($1, $2, $3)
                 RETURNING id
                 `
@@ -52,45 +51,31 @@ module.exports = {
                 const results = await db.query(query, values);
                 
                 return results.rows[0].id;
-            } catch (error) {
-                console.log(error)
-            }
-    },
-            
-    find(id){
-        return db.query(`
-            SELECT *
-            FROM users
-            WHERE chefs.id = $1
-        `, [id]);
+
+        } catch (error) {
+            console.log(error)
+        }
     },
 
-    async update(data, callback){
+    async update(id, fields){
         try {
-            const query = `
-            UPDATE users SET
-            name = ($1),
-            email = ($2)
-            password = ($3)
-            WHERE id = ($4)
-            `
-            
-            const passwordHash = await hash(data.password, 8)
-            
-            const values = [
-                data.name,
-                data.email,
-                passwordHash, 
-                data.id
-            ]
-            db.query(query, values, function(err, results){
-                if (err) throw `Erro no banco: ${err}`
-                
-                callback();
+            let query = "UPDATE users SET"
+            Object.keys(fields).map((key, index, array) => {
+                if((index + 1) < array.length){
+                    query = `${query}
+                    ${key} = '${fields[key]}',`
+                }else{
+                    query = `${query}
+                    ${key} = '${fields[key]}'
+                    WHERE id = ${ id }
+                    `
+                }
             });
-            } catch (error) {
-                console.log(error)
-            }
+            await db.query(query);
+            return 
+        } catch (error) {
+            console.log(error) 
+        }
     },
 
     delete(id, callback){

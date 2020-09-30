@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const crypto = require('crypto');
 const mailer = require('../../lib/mailer');
+const { hash } = require('bcryptjs');
+
 class SessionController{
 
     loginForm(request, response){
@@ -25,18 +27,18 @@ class SessionController{
     async forgot(request, response){
 
         try {
-            const user = request.user;
+            const { user } = request;
             const token = crypto.randomBytes(20).toString("hex");
             let now = new Date();
             now = now.setHours(now.getHours() + 2);
-            
+
             await User.update(user.id, {
                 reset_token: token,
                 reset_token_expires: now 
             });
-            
+
             await mailer.sendMail({
-                to: user.mail,
+                to: user.email,
                 from: 'no-reply@foodfy.com.br',
                 subject: 'Recuperação de senha',
                 html: `
@@ -69,20 +71,31 @@ class SessionController{
         });
     }
 
-    reset(request, response){
+    async reset(request, response){
+        const { user } = request;
+        const { password, token } = request.body;
 
-        const {email, password, passwordRepeat, token} = request.body;
-
-        
+        const newPassword = await hash(password, 8);
 
         try {
 
-            return response.render("session/reset-password");
+            await User.update(user.id, {
+                password: newPassword,
+                reset_token: "",
+                reset_token_expires: ""
+            })
+
+            return response.render("session/login", {
+                user: request.body,
+                success: "Senha atualizada, faça o seu login"
+            });
             
         } catch (error) {
             console.error(error);
 
             return response.render("session/reset-password", {
+                user: request.body,
+                token,
                 error: "Erro inesperado, tente novamente"
             }); 
         }

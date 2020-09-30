@@ -25,6 +25,7 @@ async function login(request, response, next){
 }
 
 async function forgot(request, response, next){
+
     const { email } = request.body;
     try {
         const user = await User.findOne({where: { email }});
@@ -35,9 +36,7 @@ async function forgot(request, response, next){
                 error: 'Email não cadastrado'
             });
         }
-
         request.user = user;
-
         next();
     } catch (error) {
         console.log(error)
@@ -45,28 +44,46 @@ async function forgot(request, response, next){
 }
 
 async function reset(request, response, next){
-    const { email, password } = request.body;
+    const { email, password, passwordRepeat, token } = request.body;
 
-    const user = await User.findOne({where: { email }});
+    const user = await User.findOne({ where: { email }});
 
     if(!user){
         return response.render('session/reset-password', {
             user: request.body,
+            token,
             error: 'Usuário não cadastrado'
         });
     }
 
     if(password != passwordRepeat) return response.render("session/reset-password", {
         user: request.body,
+        token,
         error: 'As senhas são diferentes'
     });
 
+    if(token != user.reset_token) return response.render("session/reset-password", {
+        user: request.body,
+        token,
+        error: 'Token inválido, solicite uma nova recuperação de senha'
+    });
+
+    let now = new Date();
+    now = now.setHours(now.getHours());
+
+    if(now > user.reset_token_expires) return response.render("session/reset-password", {
+        user: request.body,
+        token,
+        error: 'Token expirado, solicite uma nova recuperação de senha'
+    });
+
+    request.user = user;
 
     next();
-
 }
 
 module.exports = {
     login,
-    forgot
+    forgot,
+    reset
 }

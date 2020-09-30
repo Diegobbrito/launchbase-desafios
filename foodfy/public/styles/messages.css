@@ -24,5 +24,8 @@
 }
 
 .messages.success {
-    background: greenyellow;
+    background: rgb(54, 119, 0);
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
 }
