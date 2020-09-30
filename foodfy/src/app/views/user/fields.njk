@@ -1,19 +1,18 @@
 {% block content %}
 <div class="item">
-    
+    <h3>Nome Completo</h3>
+        <input type="text" value="{{user.name}}" name="name" placeholder="Nome" required>
+    <div>
 </div>
-<h3>Nome Completo</h3>
-    <input type="text" value="{{user.name}}" name="name" placeholder="Nome" required>
-<div>
-
-<h3>Email</h3>
-<input 
- type="email" 
- name="email" 
- placeholder="Email" 
- value="{{user.email}}"
- onblur="Validate.apply(this, 'isEmail')"
- required>
+<div class="item">
+    <h3>Email</h3>
+    <input 
+    type="email" 
+    name="email" 
+    placeholder="Email" 
+    value="{{user.email}}"
+    onblur="Validate.apply(this, 'isEmail')"
+    required>
 </div>
 <h3>Senha</h3>
 <input type="password" name="password" required>

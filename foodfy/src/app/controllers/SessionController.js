@@ -11,6 +11,14 @@ class SessionController{
         request.session.destroy();
         return response.redirect('/');
     }
+
+    forgotForm(request, response){
+        return response.render("session/forgot-password");
+    }
+
+    resetForm(request, response){
+        return response.render("session/reset-password");
+    }
 }
 
 module.exports = new SessionController();
