@@ -8,12 +8,14 @@ class UserController{
 
     async post(request, response){
         const userId = await User.create(request.body);
+
+        request.session.userId = userId;
         
-        response.redirect('/users')
+        response.redirect('/users');
     }
 
     show(request, response ){
-        return response.send('OK')
+        return response.send('OK');
     }
 }
 

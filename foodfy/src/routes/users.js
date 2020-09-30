@@ -5,9 +5,9 @@ const SessionController = require('../app/controllers/SessionController');
 const ValidatorUser = require('../app/validators/user')
 
 //Rotas de Login/Logout
-// routes.get('/login', SessionController.loginForm)
-// routes.post('/login', SessionController.login)
-// routes.post('/logout', SessionController.log)
+routes.get('/login', SessionController.loginForm)
+routes.post('/login', SessionController.login)
+routes.post('/logout', SessionController.logout)
 
 //Rotas de reset de senha
 // routes.get('/forgot-password', SessionController.forgotForm)
