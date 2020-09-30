@@ -15,7 +15,7 @@ class UserController{
     }
 
     show(request, response ){
-        return response.send('OK');
+        return response.render('session/login');
     }
 }
 

@@ -1,5 +1,6 @@
-const crypto = require('crypto');
 const User = require('../models/User');
+const crypto = require('crypto');
+const mailer = require('../../lib/mailer');
 class SessionController{
 
     loginForm(request, response){
@@ -21,16 +22,71 @@ class SessionController{
         return response.render("session/forgot-password");
     }
 
-    resetForm(request, response){
-        return response.render("session/reset-password");
-    }
-    forgot(request, response){
-        const token = crypto.randomBytes(20).toString("hex");
-        let now = new Date();
-        now = now.setHours(now.getHours() + 2);
+    async forgot(request, response){
 
-        await User.update(id, fields)
+        try {
+            const user = request.user;
+            const token = crypto.randomBytes(20).toString("hex");
+            let now = new Date();
+            now = now.setHours(now.getHours() + 2);
+            
+            await User.update(user.id, {
+                reset_token: token,
+                reset_token_expires: now 
+            });
+            
+            await mailer.sendMail({
+                to: user.mail,
+                from: 'no-reply@foodfy.com.br',
+                subject: 'Recuperação de senha',
+                html: `
+                <h2>Perdeu a chave? </h2>
+                <p>Não se preocupe, clique no link abaixo para recuperar sua senha</p>
+                <p>
+                <a href="http://localhost:3000/users/password-reset?token=${token}" target="_blank">
+                RECUPERAR SENHA 
+                </a>
+                </p>
+                `
+            });
+            
+            return response.render("session/forgot-password", {
+                success: "Verifique seu email para resetar sua senha"
+            }); 
+            
+        } catch (error) {
+            console.error(error);
+
+            return response.render("session/forgot-password", {
+                error: "Erro inesperado, tente novamente"
+            }); 
+        }
+    }
+
+    resetForm(request, response){
+        return response.render("session/reset-password", {
+            token: request.query.token
+        });
+    }
+
+    reset(request, response){
+
+        const {email, password, passwordRepeat, token} = request.body;
+
+        
+
+        try {
+
+            return response.render("session/reset-password");
+            
+        } catch (error) {
+            console.error(error);
+
+            return response.render("session/reset-password", {
+                error: "Erro inesperado, tente novamente"
+            }); 
+        }
     }
 }
 
-module.exports = new SessionController();
+module.exports = new SessionController(); 

@@ -38,12 +38,12 @@ async function post(request, response, next){
     if(user) return response.render("user/register", {
         user: request.body,
         error: 'Usuário já cadastrado'
-    })
+    });
 
     if(password != passwordRepeat) return response.render("user/register", {
         user: request.body,
         error: 'As senhas são diferentes'
-    })
+    });
     next();
 }
 
