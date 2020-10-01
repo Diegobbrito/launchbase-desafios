@@ -14,10 +14,5 @@
     onblur="Validate.apply(this, 'isEmail')"
     required>
 </div>
-<h3>Senha</h3>
-<input type="password" name="password" required>
-{% if not user.id%}
-<h3>Repita a senha</h3>
-<input type="password" name="passwordRepeat" required>
-{% endif%}
+<input type="checkbox" name="isAdmin" class="checkbox">Administrador
 {% endblock content %}

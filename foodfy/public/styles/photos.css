@@ -1,0 +1,125 @@
+
+form #photos-upload{
+    position: relative;
+    display: block;
+    overflow: hidden;
+    width: 200px;
+}
+
+form #photos-upload p{
+    padding: 8px 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px -6px #333;
+    background-color: #6558C3;
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+form #photos-input{ 
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+}
+
+form #photos-upload span{
+    padding: 30px;
+    border: 1px solid black;
+    border-radius: 8px;
+    margin: 8px  0;
+    color: #777777;
+    font-size: 48px;
+}
+
+form #photos-preview{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 8px;
+    widows: 100%;
+    margin: 8px 0;
+}
+
+form #photos-preview img{
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+#photos-preview .photo {
+    position: relative;
+}
+
+#photos-preview .photo i {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    background: rgba(255,255,255,0.8);
+    color: red;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 400%;
+    cursor: pointer;
+
+    transition: opacity 300ms;
+    opacity: 0;
+}
+
+#photos-preview .photo:hover i {
+    opacity: 1;
+}
+
+.container-photos{
+    display: grid;
+    grid-template-columns: 210px 1fr;
+}
+.container-photos #photos-preview .photo{
+    width: 110px;
+    height: 110px;
+}
+
+.container-photos #photos-preview .photo img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#gallery-preview{
+    display: grid;
+    width: 50%;
+    margin-left: 50%;
+    justify-content: right;
+    grid-template-columns: repeat(auto-fit, 90px);
+}
+#gallery-preview .photo {
+    height: 90px;
+    margin-left: 8px;
+    justify-content: right;
+
+}
+
+#gallery-preview .photo img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+    cursor: pointer;
+    transition: 300ms;
+}
+#gallery-preview .photo img:hover ,
+#gallery-preview .photo img.active{
+    opacity: 1;
+}
