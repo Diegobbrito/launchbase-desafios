@@ -12,7 +12,7 @@ class SessionController{
     login(request, response){
         request.session.userId = request.user.id;
 
-        return response.redirect("/users");
+        return response.render("/users/recipes");
     }
     
     logout(request, response){

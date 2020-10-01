@@ -11,20 +11,21 @@ class UserController{
 
     async post(request, response){
         try {
+            let user = request.body;
             
-            const userId = await User.create(request.body);
-
-            console.log("userId");
-            console.log(userId);
-
             const token = crypto.randomBytes(20).toString("hex");
+            
             let now = new Date();
             now = now.setHours(now.getHours() + 2);
 
-            await User.update(userId, {
+            user = {
+                ...user,
+                password: token,
                 reset_token: token,
                 reset_token_expires: now 
-            });
+            }
+            
+            const userId = await User.create(user);
 
             await mailer.sendMail({
                 to: request.body.email,

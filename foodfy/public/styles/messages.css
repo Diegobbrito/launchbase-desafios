@@ -20,7 +20,6 @@
 }
 
 .messages.error {
-    width: 100%;
     height: 40px;
     align-items: center;
 }
@@ -39,9 +38,9 @@
     padding: 4px;
     border-radius: 4px;
     color: white;
-    width: 49%;
+    width: 100%;
     text-align: center;
-    font: bold;
+    font: 700;
     text-transform: uppercase;
     margin-bottom: 8px;
 }
