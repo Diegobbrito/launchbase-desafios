@@ -31,8 +31,8 @@ async function post(request, response, next){
     if(fillAllFields)
         return response.render("user/login", fillAllFields);
 
-    let { email, password, passwordRepeat } = request.body;
-
+    let { email } = request.body;
+//, password, passwordRepeat
     const user = await User.findOne({ where: { email }});
 
     if(user) return response.render("user/register", {
@@ -40,10 +40,14 @@ async function post(request, response, next){
         error: 'Usuário já cadastrado'
     });
 
-    if(password != passwordRepeat) return response.render("user/register", {
-        user: request.body,
-        error: 'As senhas são diferentes'
-    });
+    if(request.body.is_admin){
+        request.body.is_admin = true
+    }
+
+    // if(password != passwordRepeat) return response.render("user/register", {
+    //     user: request.body,
+    //     error: 'As senhas são diferentes'
+    // });
     next();
 }
 

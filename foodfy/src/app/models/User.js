@@ -14,6 +14,7 @@ module.exports = {
             callback(results.rows)
         });
     },
+    
     async findOne(filters){
         let query = "SELECT * FROM users"
 
@@ -31,27 +32,35 @@ module.exports = {
         return results.rows[0]; 
     },
 
-    async create(data){
+    async create(fields){
         try {
-            const query =  `
-                INSERT INTO public.users (
-                    name,
-                    email, 
-                    password               
-                ) VALUES ($1, $2, $3)
-                RETURNING id
-                `
-                //npm install bcryptjs
-                const passwordHash = await hash(data.password, 8)
-                const values = [
-                    data.name,
-                    data.email,
-                    passwordHash
-                ]
-                const results = await db.query(query, values);
-                
-                return results.rows[0].id;
 
+            let query =  `
+                INSERT INTO public.users (
+                `
+            Object.keys(fields).map((key, index, array) => {
+                if((index + 1) < array.length){
+                    query = `${query}
+                    ${key},`
+                }else{
+                    query = `${query}
+                    ${key} ) VALUES ( `
+                }
+            });
+
+            Object.keys(fields).map((key, index, array) => {
+                if((index + 1) < array.length){
+                    query = `${query}
+                    '${fields[key]}',`
+                }else{
+                    query = `${query}
+                    ${fields[key]})
+                    RETURNING id
+                    `
+                }
+            });
+            const results = await db.query(query);
+            return results.rows[0].id;
         } catch (error) {
             console.log(error)
         }

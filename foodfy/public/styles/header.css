@@ -23,3 +23,30 @@ header a{
     text-decoration: none;
     color: #111111;
 }
+
+.header {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.header .buttons{
+    display: flex;
+    width: 40%;
+    justify-content: space-between;
+}
+.header .button:last-child{
+    background-color: #8A8A8A ;
+    color: white;
+}
+
+.header .button:first-child{
+    margin-left: 100px;
+}
+
+.header .item{
+    width: 50%;
+}
+
+.header .button.savebutton{
+    margin-left: 250px;
+}

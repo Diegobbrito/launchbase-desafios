@@ -20,6 +20,25 @@
     background-color: #F1F1F1;
 }
 
+input.checkbox{
+    height: 16px;
+    justify-self: left;
+    width: 16px;
+    margin-right: 16px;
+}
+.card .check{
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+
+.card .items {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.card .items .item{
+    width: 80%;
+}
 
 .card button,
 .card .button{

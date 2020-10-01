@@ -4,13 +4,16 @@
 <section class="card user-register container form">
     <form action="/users/register" method="post">
     <div class="header">
-        <h1>Registre-se</h1>
+        <h1>Criar usuário</h1>
+        <div class="buttons">
+            <button class="button" type="submit">Salvar</button>
+            <button class="button" type="submit">Cancelar</button>
+        </div>
     </div>
     <div class="fields">
         {% include 'user/fields.njk' %}
     </div>
 
-    <button class="button" type="submit">Salvar</button>
     </form>
 </section>
 

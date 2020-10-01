@@ -1,18 +1,26 @@
 {% block content %}
+<div class="items">
+
 <div class="item">
-    <h3>Nome Completo</h3>
-        <input type="text" value="{{user.name}}" name="name" placeholder="Nome" required>
-    <div>
+    <h3>Nome</h3>
+        <input type="text" value="{{user.name}}" name="name" placeholder="Digite o nome completo" required>
 </div>
 <div class="item">
     <h3>Email</h3>
     <input 
     type="email" 
     name="email" 
-    placeholder="Email" 
+    placeholder="Digite o email" 
     value="{{user.email}}"
     onblur="Validate.apply(this, 'isEmail')"
     required>
 </div>
-<input type="checkbox" name="isAdmin" class="checkbox">Administrador
+
+</div>
+<div class="check">
+    <input type="hidden" name="password" value="reset">
+    <input type="checkbox" name="is_admin" id="isAdmin" class="checkbox"> 
+    
+    <p> Administrador </p> 
+</div>
 {% endblock content %}
