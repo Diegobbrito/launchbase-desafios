@@ -20,7 +20,9 @@
 }
 
 .messages.error {
-    background: #e74c3c;
+    width: 100%;
+    height: 40px;
+    align-items: center;
 }
 
 .messages.success {

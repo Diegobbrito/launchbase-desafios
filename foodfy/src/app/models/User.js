@@ -44,7 +44,8 @@ module.exports = {
                     ${key},`
                 }else{
                     query = `${query}
-                    ${key} ) VALUES ( `
+                    ${key} 
+                    ) VALUES ( `
                 }
             });
 
@@ -54,11 +55,12 @@ module.exports = {
                     '${fields[key]}',`
                 }else{
                     query = `${query}
-                    ${fields[key]})
+                    '${fields[key]}')
                     RETURNING id
                     `
                 }
             });
+            console.log(query)
             const results = await db.query(query);
             return results.rows[0].id;
         } catch (error) {
