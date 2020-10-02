@@ -1,0 +1,32 @@
+{% extends "layout.njk" %}
+{% block content %}
+
+<section class="card user-register container form">
+    <form action="/users/register" method="post">
+    <div class="header">
+        <h1>Perfil de {{user.name}}</h1>
+        <div class="buttons">
+            <button class="button" type="submit">Editar</button>
+        </div>
+    </div>
+    <div class="fields">
+        <h1>Dados do usuário: </h1>
+        {% if user.is_admin == true%}
+            <div class="item">
+                <h1>Nivel: Administrador do sistema</h1>
+            </div>
+        {%endif%}
+        <div class="item">
+            <h1>Nome: {{user.name}}</h1>
+        </div>
+        <div class="item">
+            <h1>Email : {{user.email}}</h1>
+        </div>
+        
+    </div>
+
+    </form>
+</section>
+
+
+{% endblock content %}

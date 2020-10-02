@@ -51,7 +51,7 @@ class UserController{
     }
 
     show(request, response ){
-        return response.render('session/login');
+        return response.render('admin/recipes/index');
     }
     
     async update(request, response){

@@ -8,7 +8,7 @@ function onlyUsers(request, response, next){
 
 function isLoggedRedirectToUsers(request, response, next){
     if(request.session.userId)
-        return response.redirect("/users");
+        return response.redirect("/users")
     next();
 }
 

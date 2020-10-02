@@ -12,10 +12,12 @@ class SessionController{
     login(request, response){
         request.session.userId = request.user.id;
 
-        return response.render("/users/recipes");
+        return response.redirect("/admin/recipes");
     }
     
     logout(request, response){
+        console.log("Logout")
+        console.log(request.session)
         request.session.destroy();
         return response.redirect('/');
     }

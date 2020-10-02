@@ -15,6 +15,11 @@
         <a href="/about">Sobre</a>
         <a href="/recipes">Receitas</a>
         <a href="/users/login">Login</a>
+        {%if session%}
+            <form action="/users/logout" method="post">
+                <button type="submit">Logout</button>
+            </form>
+        {%endif%}
     </header>
 
     {% block content %}
