@@ -27,6 +27,14 @@ header .log{
     margin-left: 500px;
 }
 
+header .logout{
+    padding: 8px;
+    background-color: white;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 .header {
     display: flex;
     margin-bottom: 30px;
@@ -53,3 +61,4 @@ header .log{
 .header .button.savebutton{
     margin-left: 250px;
 }
+

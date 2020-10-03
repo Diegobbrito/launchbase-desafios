@@ -2,11 +2,10 @@
 {% block content %}
 
 <section class="card user-register container form">
-    <form action="/users/register" method="post">
     <div class="header">
         <h1>Perfil de {{user.name}}</h1>
         <div class="buttons">
-            <button class="button" type="submit">Editar</button>
+            <a href="/" class="button" type="submit">Editar</a>
         </div>
     </div>
     <div class="fields">
@@ -24,8 +23,6 @@
         </div>
         
     </div>
-
-    </form>
 </section>
 
 

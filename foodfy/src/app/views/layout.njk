@@ -13,16 +13,21 @@
         <img src="/assets/logo.png" alt="">
         </a>
         <a href="/about">Sobre</a>
-        <a href="/recipes">Receitas</a>
         {% if not session.userId %}
+            <a href="/recipes">Receitas</a>
             <div class="log">
                 <a href="/users/login">Login</a>
             </div>
         {% endif %}
         {% if session.userId %}
+                <a href="/admin/recipes">Receitas</a>
+
+                <a href="/admin/chefs">Chefs</a>
+                <a href="/admin/profile">Minha conta</a>
+
             <div class="log">
                 <form action="/users/logout" method="post">
-                    <button type="submit">Logout</button>
+                    <button type="submit" class="logout">Logout</button>
                 </form>
             </div>
         {% endif %}
