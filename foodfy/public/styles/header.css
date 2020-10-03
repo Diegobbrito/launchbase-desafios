@@ -23,6 +23,9 @@ header a{
     text-decoration: none;
     color: #111111;
 }
+header .log{
+    margin-left: 500px;
+}
 
 .header {
     display: flex;
