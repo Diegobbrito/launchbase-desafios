@@ -63,7 +63,7 @@ module.exports = {
             const results = await db.query(query);
             return results.rows[0].id;
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     },
 
@@ -84,7 +84,7 @@ module.exports = {
             await db.query(query);
             return 
         } catch (error) {
-            console.log(error) 
+            console.error(error);
         }
     },
 

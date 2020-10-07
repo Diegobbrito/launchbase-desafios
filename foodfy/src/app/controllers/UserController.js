@@ -46,7 +46,7 @@ class UserController{
             
             response.redirect('/users');
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
@@ -68,7 +68,7 @@ class UserController{
                 success: "Conta atualizada com sucesso"
             })
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 

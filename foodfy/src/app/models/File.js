@@ -43,7 +43,7 @@ module.exports = {
             
             return db.query(`DELETE from files WHERE id = $1`, [id])
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     },
     async deleteRecipe(id){
@@ -59,7 +59,7 @@ module.exports = {
                 WHERE recipe_files.file_id = files.id 
                 AND files.id = $1`, [id]);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
    

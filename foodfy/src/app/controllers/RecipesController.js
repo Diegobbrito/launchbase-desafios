@@ -47,7 +47,7 @@ module.exports = {
             
             return response.render("admin/recipes/create", { chefOptions: options});
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     },
 
@@ -87,7 +87,7 @@ module.exports = {
             });
 
         } catch (error) {
-            console.log(error)   
+            console.error(error)   
         }
     }, 
         
