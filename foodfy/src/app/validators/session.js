@@ -39,7 +39,7 @@ async function forgot(request, response, next){
         request.user = user;
         next();
     } catch (error) {
-        console.log(error)
+        console.error(error);
     }
 }
 

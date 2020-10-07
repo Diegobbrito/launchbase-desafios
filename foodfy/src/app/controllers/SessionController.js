@@ -16,8 +16,6 @@ class SessionController{
     }
     
     logout(request, response){
-        console.log("Logout")
-        console.log(request.session)
         request.session.destroy();
         return response.redirect('/');
     }

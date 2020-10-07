@@ -22,7 +22,7 @@
 
     <h2>Titulo</h2>
     {% if recipe %}
-        <input type="text" value={{recipe.title}} name="title">
+        <input type="text" value="{{recipe.title}}" name="title">
     {%else%}
         <input type="text" placeholder="Titulo" name="title">
     {% endif %}
@@ -37,7 +37,7 @@
         <div class="ingredient">
             {% if recipe %}
                 {% for ingrediente in recipe.ingredients %}
-                    <input type="text" name="ingredients[]" value={{ingrediente}}/>
+                    <input type="text" name="ingredients[]" value="{{ingrediente}}"/>
                 {% endfor %}
             {% else%}
                 <input type="text" name="ingredients[]" value="" placeholder="Ingredient" />
